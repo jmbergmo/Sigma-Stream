@@ -96,7 +96,7 @@ const InputTab: React.FC<InputTabProps> = ({ factors: initialFactors, onGenerate
           <div className="border-t border-slate-100 pt-6">
               <h3 className="text-sm font-bold text-slate-800 mb-2 uppercase tracking-wide">About DFSS</h3>
               <p className="text-sm text-slate-600 leading-relaxed">
-                Design for Six Sigma (DFSS) is a methodology used to design products and processes that meet customer expectations at a high quality level.
+                Design for Six Sigma (DFSS) is a methodology used to design products and processes that meet customer expectations at a high quality level. The purpose of this site is to provide users with a simple and easy and simple DFSS DOE and product visually appealing results. 
               </p>
           </div>
         </div>
