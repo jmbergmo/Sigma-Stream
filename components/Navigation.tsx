@@ -1,12 +1,12 @@
 import React from 'react';
 import { ActiveTab } from '../types';
 
-interface TabNavigationProps {
+interface NavigationProps {
   activeTab: ActiveTab;
   onChange: (tab: ActiveTab) => void;
 }
 
-const TabNavigation: React.FC<TabNavigationProps> = ({ activeTab, onChange }) => {
+const Navigation: React.FC<NavigationProps> = ({ activeTab, onChange }) => {
   const tabs: { id: ActiveTab; label: string }[] = [
     { id: 'input', label: 'Input' },
     { id: 'output', label: 'Output' },
@@ -61,4 +61,4 @@ const TabNavigation: React.FC<TabNavigationProps> = ({ activeTab, onChange }) =>
   );
 };
 
-export default TabNavigation;
+export default Navigation;

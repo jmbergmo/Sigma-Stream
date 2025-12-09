@@ -94,9 +94,12 @@ const InputTab: React.FC<InputTabProps> = ({ factors: initialFactors, onGenerate
             ))}
           </ol>
           <div className="border-t border-slate-100 pt-6">
-              <h3 className="text-sm font-bold text-slate-800 mb-2 uppercase tracking-wide">About DFSS</h3>
+              <h3 className="text-sm font-bold text-slate-800 mb-2 uppercase tracking-wide">About DFSS & DOE Optimization</h3>
+              <p className="text-sm text-slate-600 leading-relaxed mb-4">
+                Unlock the power of data-driven design with Design for Six Sigma (DFSS), a premier methodology for designing and optimizing products and processes to achieve outstanding quality and meet customer expectations. This powerful approach is fundamental to quality engineering and robust design. Our tool simplifies the core of DFSS by providing an intuitive platform for Design of Experiments (DOE).
+              </p>
               <p className="text-sm text-slate-600 leading-relaxed">
-                Design for Six Sigma (DFSS) is a methodology used to design products and processes that meet customer expectations at a high quality level. The purpose of this site is to provide users with a simple and easy and simple DFSS DOE and product visually appealing results. 
+                With our AI-powered web application, you can seamlessly create and analyze complex experimental designs. Define your input factors, specify their levels, and automatically generate a full factorial design matrix. Once you collect your results, our advanced statistical analysis and simulation engine helps you understand the relationships between your variables, identify critical factors, and optimize your process or product with unparalleled precision. This platform is an essential tool for engineers, researchers, and quality professionals looking to implement DFSS and DOE principles for process optimization, product development, and achieving Six Sigma level performance. Enhance your decision-making, reduce variability, and accelerate innovation with our easy-to-use, visually appealing DFSS and DOE software.
               </p>
           </div>
         </div>

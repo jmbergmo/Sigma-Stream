@@ -1,5 +1,5 @@
 import React from 'react';
-import TabNavigation from './TabNavigation';
+import Navigation from './Navigation';
 import { ActiveTab } from '../types';
 
 interface HeaderProps {
@@ -74,7 +74,7 @@ const Header: React.FC<HeaderProps> = ({ activeTab, onTabChange, onDemo, onClear
 
              <div className="h-6 w-px bg-slate-700 mx-2 hidden md:block"></div>
 
-             <TabNavigation activeTab={activeTab} onChange={onTabChange} />
+             <Navigation activeTab={activeTab} onChange={onTabChange} />
           </div>
           
           {/* Placeholder for balance on Desktop */}
