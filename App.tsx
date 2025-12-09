@@ -13,7 +13,8 @@ const App: React.FC = () => {
   const [doeFactors, setDoeFactors] = useState<DoeFactor[]>([
     { id: '1', name: 'Pressure', levels: [40, 60] },
     { id: '2', name: 'Temp', levels: [200, 250] },
-    { id: '3', name: 'Volume', levels: [10, 20] }
+    { id: '3', name: 'Volume', levels: [10, 20] },
+    { id: '4', name: 'Speed', levels: [1000, 1200] }
   ]);
   const [doeRuns, setDoeRuns] = useState<DoeRun[]>([]);
 
@@ -40,7 +41,8 @@ const App: React.FC = () => {
         currentFactors = [
             { id: '1', name: 'Pressure', levels: [40, 60] },
             { id: '2', name: 'Temp', levels: [200, 250] },
-            { id: '3', name: 'Volume', levels: [10, 20] }
+            { id: '3', name: 'Volume', levels: [10, 20] },
+            { id: '4', name: 'Speed', levels: [1000, 1200] }
         ];
         setDoeFactors(currentFactors);
         currentRuns = generateFullFactorialDesign(currentFactors);
@@ -134,8 +136,7 @@ const App: React.FC = () => {
                    <div className="bg-white p-4 rounded-xl shadow-sm border border-slate-200 group hover:shadow-md transition-all cursor-pointer">
                       <div className="w-10 h-10 bg-purple-600 rounded-lg mb-3 flex items-center justify-center text-white font-bold text-xl">S</div>
                       <h4 className="font-bold text-slate-800">SigmaXL Lite</h4>
-                      <p className="text-xs text-slate-500 mt-1 mb-3">It's mostly just Excel macros but we charge for it.</p>
-                      <button className="w-full bg-purple-50 text-purple-600 text-xs font-bold py-2 rounded group-hover:bg-purple-600 group-hover:text-white transition-colors">
+                      <p className="text-xs text-slate-500 mt-1 mb-3">It's mostly just Excel macros but we charge for it.</p>                      <button className="w-full bg-purple-50 text-purple-600 text-xs font-bold py-2 rounded group-hover:bg-purple-600 group-hover:text-white transition-colors">
                           Get It Now
                       </button>
                   </div>
