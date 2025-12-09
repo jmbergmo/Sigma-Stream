@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { DoeFactor } from '../types';
+import { DoeFactor } from '../../types';
 
 interface InputTabProps {
   factors: DoeFactor[];

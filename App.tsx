@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import Header from './components/Header';
-import InputTab from './components/InputTab';
-import OutputTab from './components/OutputTab';
-import HistoryTab from './components/HistoryTab';
+import InputTab from './components/input/InputTab';
+import OutputTab from './components/output/OutputTab';
+import HistoryTab from './components/history/HistoryTab';
 import { ActiveTab, DoeFactor, DoeRun, YSpecs, OptimizationSpecs } from './types';
 import { generateFullFactorialDesign } from './services/mathUtils';
 
