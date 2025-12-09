@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { DoeRun, DoeFactor } from '../../types';
 import { calculateInteractionEffects } from '../../services/mathUtils';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend, ReferenceLine } from 'recharts';
@@ -9,11 +9,17 @@ interface InteractionEffectsProps {
 }
 
 const InteractionEffects: React.FC<InteractionEffectsProps> = ({ runs, factors }) => {
-  const [selectedInteraction, setSelectedInteraction] = useState<string | null>(null);
+  const [selectedInteraction, setSelectedInteraction] = useState<string>('');
 
   const interactionData = useMemo(() => {
     return calculateInteractionEffects(runs, factors);
   }, [runs, factors]);
+
+  useEffect(() => {
+    if (interactionData.length > 0) {
+      setSelectedInteraction(`${interactionData[0].factor1} * ${interactionData[0].factor2}`);
+    }
+  }, [interactionData]);
 
   const handleInteractionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedInteraction(event.target.value);
@@ -104,8 +110,7 @@ const InteractionEffects: React.FC<InteractionEffectsProps> = ({ runs, factors }
         <div className="lg:col-span-7">
             <div className='flex justify-between items-center mb-2'>
                 <h3 className="font-bold text-slate-700">Interaction Plot</h3>
-                <select onChange={handleInteractionChange} value={selectedInteraction || ''} className="text-sm bg-white border border-slate-300 rounded px-2 py-1 focus:ring-2 focus:ring-indigo-500 outline-none">
-                    <option value="">Select Interaction</option>
+                <select onChange={handleInteractionChange} value={selectedInteraction} className="text-sm bg-white border border-slate-300 rounded px-2 py-1 focus:ring-2 focus:ring-indigo-500 outline-none">
                     {interactionData.map(d => (
                         <option key={`${d.factor1}-${d.factor2}`} value={`${d.factor1} * ${d.factor2}`}>{`${d.factor1} * ${d.factor2}`}</option>
                     ))}
