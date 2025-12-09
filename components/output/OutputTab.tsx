@@ -6,6 +6,7 @@ import SimulationResults from './SimulationResults';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { analyzeSimulationResults } from '../../services/geminiService';
+import InteractionEffects from './InteractionEffects';
 
 interface OutputTabProps {
   runs: DoeRun[];
@@ -226,6 +227,10 @@ const OutputTab: React.FC<OutputTabProps> = ({
                        </div>
                    </div>
                </div>
+           )}
+
+           {hasData && regressionFormula && (
+              <InteractionEffects runs={runs} factors={factors} />
            )}
        </div>
     </div>

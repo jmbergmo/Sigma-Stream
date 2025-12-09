@@ -228,3 +228,56 @@ export const generateRegressionFormula = (runs: DoeRun[], factors: DoeFactor[]):
     
     return `${intercept.toFixed(4)} + ${parts.join(' + ')}`;
 };
+
+export interface InteractionEffect {
+  factor1: string;
+  factor2: string;
+  interaction: number;
+}
+
+export const calculateInteractionEffects = (runs: DoeRun[], factors: DoeFactor[]): InteractionEffect[] => {
+    const validRuns = runs.filter(r => r.y !== null);
+    if (validRuns.length < 4 || factors.length < 2) return [];
+
+    const interactions: InteractionEffect[] = [];
+
+    for (let i = 0; i < factors.length; i++) {
+        for (let j = i + 1; j < factors.length; j++) {
+            const factorA = factors[i];
+            const factorB = factors[j];
+
+            const levelsA = factorA.levels.sort((a, b) => a - b);
+            const lowA = levelsA[0];
+            const highA = levelsA[levelsA.length - 1];
+
+            const levelsB = factorB.levels.sort((a, b) => a - b);
+            const lowB = levelsB[0];
+            const highB = levelsB[levelsB.length - 1];
+
+            const runsLowA_LowB = validRuns.filter(r => r.factors[factorA.name] === lowA && r.factors[factorB.name] === lowB);
+            const runsHighA_LowB = validRuns.filter(r => r.factors[factorA.name] === highA && r.factors[factorB.name] === lowB);
+            const runsLowA_HighB = validRuns.filter(r => r.factors[factorA.name] === lowA && r.factors[factorB.name] === highB);
+            const runsHighA_HighB = validRuns.filter(r => r.factors[factorA.name] === highA && r.factors[factorB.name] === highB);
+
+            if (runsLowA_LowB.length > 0 && runsHighA_LowB.length > 0 && runsLowA_HighB.length > 0 && runsHighA_HighB.length > 0) {
+                const avgLowA_LowB = runsLowA_LowB.reduce((s, r) => s + (r.y || 0), 0) / runsLowA_LowB.length;
+                const avgHighA_LowB = runsHighA_LowB.reduce((s, r) => s + (r.y || 0), 0) / runsHighA_LowB.length;
+                const avgLowA_HighB = runsLowA_HighB.reduce((s, r) => s + (r.y || 0), 0) / runsLowA_HighB.length;
+                const avgHighA_HighB = runsHighA_HighB.reduce((s, r) => s + (r.y || 0), 0) / runsHighA_HighB.length;
+
+                const effectA_at_lowB = avgHighA_LowB - avgLowA_LowB;
+                const effectA_at_highB = avgHighA_HighB - avgLowA_HighB;
+
+                const interaction = (effectA_at_highB - effectA_at_lowB) / 2;
+
+                interactions.push({
+                    factor1: factorA.name,
+                    factor2: factorB.name,
+                    interaction: Math.abs(interaction),
+                });
+            }
+        }
+    }
+
+    return interactions.sort((a, b) => b.interaction - a.interaction);
+};
