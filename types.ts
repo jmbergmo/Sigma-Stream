@@ -21,6 +21,8 @@ export interface SimulationResult {
   max: number;
   cp: number;
   cpk: number;
+  cpu: number;
+  cpl: number;
   sigmaLevel: number;
   dpmo: number;
   defects: number;

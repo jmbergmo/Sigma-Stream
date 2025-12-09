@@ -1,7 +1,7 @@
 import { InputVariable, SimulationConfig, SimulationResult, HistogramBin, DoeFactor, DoeRun } from '../types';
 
 // Box-Muller transform to generate normally distributed random numbers
-const generateNormalRandom = (mean: number, stdDev: number): number => {
+export const generateNormalRandom = (mean: number, stdDev: number): number => {
   let u = 0, v = 0;
   while (u === 0) u = Math.random();
   while (v === 0) v = Math.random();
@@ -10,13 +10,14 @@ const generateNormalRandom = (mean: number, stdDev: number): number => {
 };
 
 // Safe formula evaluator
-const evaluateFormula = (formula: string, variables: Record<string, number>): number => {
+export const evaluateFormula = (formula: string, variables: Record<string, number>): number => {
   // Normalize variable names to lowercase to ensure they match the lowercased formula
   const keys = Object.keys(variables).map(k => k.toLowerCase());
   const values = Object.values(variables);
   
   // Replace standard math functions with Math.func
   let safeFormula = formula.toLowerCase();
+  safeFormula = safeFormula.replace(/\^/g, '**');
   ['sin', 'cos', 'tan', 'sqrt', 'log', 'exp', 'pow', 'abs'].forEach(func => {
      safeFormula = safeFormula.replace(new RegExp(`\\b${func}\\b`, 'g'), `Math.${func}`);
   });
@@ -74,6 +75,8 @@ export const runSimulation = (
     max: Math.max(...data),
     cp,
     cpk,
+    cpu,
+    cpl,
     sigmaLevel,
     dpmo,
     defects,
