@@ -1,11 +1,11 @@
 import React, { useState, useRef, useMemo, useEffect } from 'react';
 import { BarChart, Bar, XAxis, Tooltip, ResponsiveContainer, CartesianGrid, YAxis, Cell } from 'recharts';
-import { DoeRun, DoeFactor, InputVariable, SimulationConfig, YSpecs, OptimizationSpecs } from '../types';
-import { calculateEffects, generateRegressionFormula, runSimulation } from '../services/mathUtils';
+import { DoeRun, DoeFactor, InputVariable, SimulationConfig, YSpecs, OptimizationSpecs } from '../../types';
+import { calculateEffects, generateRegressionFormula, runSimulation } from '../../services/mathUtils';
 import SimulationResults from './SimulationResults';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
-import { analyzeSimulationResults } from '../services/geminiService';
+import { analyzeSimulationResults } from '../../services/geminiService';
 
 interface OutputTabProps {
   runs: DoeRun[];

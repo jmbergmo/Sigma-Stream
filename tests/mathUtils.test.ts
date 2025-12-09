@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { evaluateFormula, generateNormalRandom, runSimulation } from './mathUtils';
+import { evaluateFormula, generateNormalRandom, runSimulation } from '../services/mathUtils';
 import type { SimulationConfig, InputVariable } from '../types';
 
 describe('mathUtils', () => {

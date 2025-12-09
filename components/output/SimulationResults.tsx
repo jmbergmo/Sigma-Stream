@@ -1,7 +1,7 @@
 import React from 'react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer, ReferenceLine } from 'recharts';
-import { SimulationResult, SimulationConfig, HistogramBin } from '../types';
-import { createHistogramData } from '../services/mathUtils';
+import { SimulationResult, SimulationConfig, HistogramBin } from '../../types';
+import { createHistogramData } from '../../services/mathUtils';
 
 interface ResultsProps {
   result: SimulationResult | null;
