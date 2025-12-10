@@ -3,6 +3,7 @@ import Header from './components/Header';
 import InputTab from './components/input/InputTab';
 import OutputTab from './components/output/OutputTab';
 import HistoryTab from './components/history/HistoryTab';
+import AppliedTab from './components/applied/AppliedTab';
 import { ActiveTab, DoeFactor, DoeRun, YSpecs, OptimizationSpecs } from './types';
 import { generateFullFactorialDesign } from './services/mathUtils';
 
@@ -106,6 +107,7 @@ const App: React.FC = () => {
                     onDemoComplete={() => setDemoActive(false)}
                   />
                 )}
+                {activeTab === 'applied' && <AppliedTab />}
                 {activeTab === 'history' && <HistoryTab />}
             </div>
           </main>
