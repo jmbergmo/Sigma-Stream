@@ -41,7 +41,7 @@ const OutputTab: React.FC<OutputTabProps> = ({
           const initials: OptimizationSpecs = {};
           factors.forEach(f => {
               const mid = (f.levels[0] + f.levels[f.levels.length - 1]) / 2;
-              initials[f.name] = { lowerLimit: mid * 0.9, upperLimit: mid * 1.1, target: mid };
+              initials[f.name] = { lowerLimit: Math.round(mid * 0.9), upperLimit: Math.round(mid * 1.1), target: mid };
           });
           onOptimizerInputsChange(initials);
       }

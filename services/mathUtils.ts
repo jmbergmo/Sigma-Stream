@@ -62,7 +62,8 @@ export const runSimulation = (
   const cp = (config.usl - config.lsl) / (6 * stdDev);
   const cpu = (config.usl - mean) / (3 * stdDev);
   const cpl = (mean - config.lsl) / (3 * stdDev);
-  const cpk = Math.min(cpu, cpl);
+  const cpkValue = Math.min(cpu, cpl);
+  const cpk = cpkValue < 0 ? 0 : cpkValue;
   
   const sigmaLevel = 3 * cpk; 
   const dpmo = (defects / config.iterations) * 1_000_000;
