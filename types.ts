@@ -58,7 +58,8 @@ export interface YSpecs {
 
 export interface OptimizerInput {
   target: number;
-  tolerance: number;
+  lowerLimit: number;
+  upperLimit: number;
 }
 
 export type OptimizationSpecs = Record<string, OptimizerInput>;

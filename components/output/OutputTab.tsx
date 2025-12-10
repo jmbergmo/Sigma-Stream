@@ -41,7 +41,7 @@ const OutputTab: React.FC<OutputTabProps> = ({
           const initials: OptimizationSpecs = {};
           factors.forEach(f => {
               const mid = (f.levels[0] + f.levels[f.levels.length - 1]) / 2;
-              initials[f.name] = { target: mid, tolerance: (mid * 0.1) };
+              initials[f.name] = { lowerLimit: mid * 0.9, upperLimit: mid * 1.1, target: mid };
           });
           onOptimizerInputsChange(initials);
       }
@@ -66,11 +66,15 @@ const OutputTab: React.FC<OutputTabProps> = ({
 
   const runOptimizerSimulation = () => {
      if (!regressionFormula) return;
-     const variables: InputVariable[] = factors.map(f => ({
-         id: f.id, name: f.name, type: 'normal',
-         mean: optimizerInputs[f.name]?.target || 0,
-         stdDev: (optimizerInputs[f.name]?.tolerance || 0) / 3
-     }));
+     const variables: InputVariable[] = factors.map(f => {
+        const lower = optimizerInputs[f.name]?.lowerLimit || 0;
+        const upper = optimizerInputs[f.name]?.upperLimit || 0;
+        return {
+            id: f.id, name: f.name, type: 'normal',
+            mean: (lower + upper) / 2,
+            stdDev: (upper - lower) / 6
+        }
+     });
      const config: SimulationConfig = {
          lsl: ySpecs.lsl === '' ? -Infinity : parseFloat(ySpecs.lsl),
          usl: ySpecs.usl === '' ? Infinity : parseFloat(ySpecs.usl),
@@ -84,11 +88,15 @@ const OutputTab: React.FC<OutputTabProps> = ({
     if (!simResult || !regressionFormula) return;
     setIsAnalyzing(true);
     try {
-        const variables = factors.map(f => ({
-            id: f.id, name: f.name, type: 'normal' as const,
-            mean: optimizerInputs[f.name]?.target || 0,
-            stdDev: (optimizerInputs[f.name]?.tolerance || 0) / 3
-        }));
+        const variables = factors.map(f => {
+            const lower = optimizerInputs[f.name]?.lowerLimit || 0;
+            const upper = optimizerInputs[f.name]?.upperLimit || 0;
+            return {
+                id: f.id, name: f.name, type: 'normal' as const,
+                mean: (lower + upper) / 2,
+                stdDev: (upper - lower) / 6
+            }
+        });
         const config = {
              lsl: ySpecs.lsl === '' ? -Infinity : parseFloat(ySpecs.lsl),
              usl: ySpecs.usl === '' ? Infinity : parseFloat(ySpecs.usl),
@@ -200,12 +208,17 @@ const OutputTab: React.FC<OutputTabProps> = ({
                            </div>
                            <div className="bg-slate-50 p-4 rounded-lg border border-slate-200">
                                <h3 className="text-sm font-bold text-slate-700 uppercase mb-4">B. Set Input Parameters</h3>
+                               <div className="grid grid-cols-12 gap-2 items-center text-xs font-bold text-slate-400 uppercase mb-2">
+                                    <div className="col-span-4">Factor</div>
+                                    <div className="col-span-4">Lower Limit</div>
+                                    <div className="col-span-4">Upper Limit</div>
+                               </div>
                                <div className="space-y-3">
                                    {factors.map(f => (
                                        <div key={f.id} className="grid grid-cols-12 gap-2 items-center">
                                            <div className="col-span-4 text-sm font-semibold text-slate-700 truncate" title={f.name}>{f.name}</div>
-                                           <div className="col-span-4"><input type="number" className="w-full text-sm border border-slate-300 rounded px-2 py-1.5" value={optimizerInputs[f.name]?.target || ''} onChange={(e) => onOptimizerInputsChange({...optimizerInputs, [f.name]: { ...optimizerInputs[f.name], target: parseFloat(e.target.value) }})} /></div>
-                                           <div className="col-span-4"><input type="number" className="w-full text-sm border border-slate-300 rounded px-2 py-1.5" value={optimizerInputs[f.name]?.tolerance || ''} onChange={(e) => onOptimizerInputsChange({...optimizerInputs, [f.name]: { ...optimizerInputs[f.name], tolerance: parseFloat(e.target.value) }})} /></div>
+                                           <div className="col-span-4"><input type="number" className="w-full text-sm border border-slate-300 rounded px-2 py-1.5" value={optimizerInputs[f.name]?.lowerLimit || ''} onChange={(e) => onOptimizerInputsChange({...optimizerInputs, [f.name]: { ...optimizerInputs[f.name], lowerLimit: parseFloat(e.target.value) }})} /></div>
+                                           <div className="col-span-4"><input type="number" className="w-full text-sm border border-slate-300 rounded px-2 py-1.5" value={optimizerInputs[f.name]?.upperLimit || ''} onChange={(e) => onOptimizerInputsChange({...optimizerInputs, [f.name]: { ...optimizerInputs[f.name], upperLimit: parseFloat(e.target.value) }})} /></div>
                                        </div>
                                    ))}
                                </div>
