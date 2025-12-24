@@ -10,9 +10,8 @@ const Navigation: React.FC<NavigationProps> = ({ activeTab, onChange }) => {
   const tabs: { id: ActiveTab; label: string }[] = [
     { id: 'input', label: 'Input' },
     { id: 'output', label: 'Output' },
-    { id: 'applied', label: 'Applied' },
     { id: 'history', label: 'History' },
-    { id: 'articles', label: 'Articles' },
+    { id: 'blog', label: 'Blog' },
   ];
 
   const getTranslateX = (tabId: ActiveTab) => {
@@ -25,7 +24,7 @@ const Navigation: React.FC<NavigationProps> = ({ activeTab, onChange }) => {
   return (
     <div className="flex justify-center w-full md:w-auto">
       {/* Dark mode styled container with gaps for separation */}
-      <div className="bg-slate-800/50 p-1 rounded-full relative border border-slate-700/50 grid grid-cols-5 gap-4 w-full max-w-2xl min-w-[580px]">
+      <div className="bg-slate-800/50 p-1 rounded-full relative border border-slate-700/50 grid grid-cols-4 gap-4 w-full max-w-xl min-w-[460px]">
 
         {/* The sliding bean */}
         <div

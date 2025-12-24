@@ -3,10 +3,9 @@ import Header from './components/Header';
 import InputTab from './components/input/InputTab';
 import OutputTab from './components/output/OutputTab';
 import HistoryTab from './components/history/HistoryTab';
-import AppliedTab from './components/applied/AppliedTab';
+import BlogTab from './components/blog/BlogTab';
 import { ActiveTab, DoeFactor, DoeRun, YSpecs, OptimizationSpecs } from './types';
 import { generateFullFactorialDesign } from './services/mathUtils';
-import HelloWorld from './articles/hello-world.mdx';
 
 const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<ActiveTab>('input');
@@ -108,13 +107,8 @@ const App: React.FC = () => {
                 onDemoComplete={() => setDemoActive(false)}
               />
             )}
-            {activeTab === 'applied' && <AppliedTab />}
             {activeTab === 'history' && <HistoryTab />}
-            {activeTab === 'articles' && (
-              <div className="prose prose-slate max-w-none bg-white p-8 rounded-xl shadow-sm">
-                <HelloWorld />
-              </div>
-            )}
+            {activeTab === 'blog' && <BlogTab />}
           </div>
         </main>
 
