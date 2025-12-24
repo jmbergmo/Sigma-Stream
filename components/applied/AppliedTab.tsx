@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Duke890RSuspension from './articles/Duke890RSuspension';
+import Duke890RSuspension from '../../articles/duke-890r-suspension.mdx';
 
 const articles = {
     'duke-890r': {
@@ -39,8 +39,8 @@ const AppliedTab: React.FC = () => {
                                                 handleSelectArticle(key);
                                             }}
                                             className={`block text-sm font-medium ${selectedArticle === key
-                                                    ? 'text-blue-600'
-                                                    : 'text-slate-500 hover:text-slate-700'
+                                                ? 'text-blue-600'
+                                                : 'text-slate-500 hover:text-slate-700'
                                                 }`}>
                                             {title}
                                         </a>

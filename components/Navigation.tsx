@@ -12,6 +12,7 @@ const Navigation: React.FC<NavigationProps> = ({ activeTab, onChange }) => {
     { id: 'output', label: 'Output' },
     { id: 'applied', label: 'Applied' },
     { id: 'history', label: 'History' },
+    { id: 'articles', label: 'Articles' },
   ];
 
   const getTranslateX = (tabId: ActiveTab) => {
@@ -24,19 +25,19 @@ const Navigation: React.FC<NavigationProps> = ({ activeTab, onChange }) => {
   return (
     <div className="flex justify-center w-full md:w-auto">
       {/* Dark mode styled container with gaps for separation */}
-      <div className="bg-slate-800/50 p-1 rounded-full relative border border-slate-700/50 grid grid-cols-4 gap-4 w-full max-w-xl min-w-[460px]">
-        
+      <div className="bg-slate-800/50 p-1 rounded-full relative border border-slate-700/50 grid grid-cols-5 gap-4 w-full max-w-2xl min-w-[580px]">
+
         {/* The sliding bean */}
-        <div 
-            className="absolute top-1 bottom-1 left-1 bg-slate-700 rounded-full shadow-sm transition-transform duration-300 ease-spring z-0 border border-slate-600"
-            style={{ 
-                // Width = (100% - padding(0.5rem) - 3*gaps(1rem)) / 4
-                // p-1 is 0.25rem * 2 = 0.5rem total horizontal padding
-                // gap-4 is 1rem. 3 gaps = 3rem.
-                // Total deduction = 3.5rem
-                width: 'calc((100% - 3.5rem) / 4)',
-                transform: `translateX(${getTranslateX(activeTab)})` 
-            }}
+        <div
+          className="absolute top-1 bottom-1 left-1 bg-slate-700 rounded-full shadow-sm transition-transform duration-300 ease-spring z-0 border border-slate-600"
+          style={{
+            // Width = (100% - padding(0.5rem) - 4*gaps(1rem)) / 5
+            // p-1 is 0.25rem * 2 = 0.5rem total horizontal padding
+            // gap-4 is 1rem. 4 gaps = 4rem.
+            // Total deduction = 4.5rem
+            width: 'calc((100% - 4.5rem) / 5)',
+            transform: `translateX(${getTranslateX(activeTab)})`
+          }}
         />
 
         {tabs.map((tab) => (
@@ -52,7 +53,7 @@ const Navigation: React.FC<NavigationProps> = ({ activeTab, onChange }) => {
           </button>
         ))}
       </div>
-      
+
       <style>{`
         .ease-spring {
           transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
