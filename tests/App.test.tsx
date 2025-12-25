@@ -2,32 +2,32 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { vi } from 'vitest';
-import App from '../App';
-import { SimulationResult } from '../types';
+import App from '../src/App';
+import { SimulationResult } from '../src/types';
 
 // Use vi.hoisted to create a mock function that will be available before vi.mock is hoisted.
 const { mockRunSimulation } = vi.hoisted(() => {
-    return {
-        mockRunSimulation: vi.fn((): SimulationResult => ({
-            data: [8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8],
-            mean: 8,
-            stdDev: 1,
-            min: 5,
-            max: 11,
-            cp: 1.1,
-            cpk: 1.0,
-            cpu: 1.2,
-            cpl: 0.9,
-            sigmaLevel: 3,
-            dpmo: 66807,
-            defects: 33403,
-            timestamp: Date.now()
-        }))
-    };
+  return {
+    mockRunSimulation: vi.fn((): SimulationResult => ({
+      data: [8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8],
+      mean: 8,
+      stdDev: 1,
+      min: 5,
+      max: 11,
+      cp: 1.1,
+      cpk: 1.0,
+      cpu: 1.2,
+      cpl: 0.9,
+      sigmaLevel: 3,
+      dpmo: 66807,
+      defects: 33403,
+      timestamp: Date.now()
+    }))
+  };
 });
 
 // Mock the entire mathUtils module
-vi.mock('../services/mathUtils', () => ({
+vi.mock('../src/services/mathUtils', () => ({
   generateFullFactorialDesign: () => [{ id: 1, factors: {}, y: null }], // Return 1 dummy item
   calculateEffects: () => [],
   generateRegressionFormula: () => 'y = 1', // Return a dummy formula to trigger the optimizer

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { processArticles } from '../services/blogUtils';
+import { processArticles } from '../src/services/blogUtils';
 import React from 'react';
 
 // Mock component

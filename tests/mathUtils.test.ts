@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
-import { evaluateFormula, generateNormalRandom, runSimulation } from '../services/mathUtils';
-import type { SimulationConfig, InputVariable } from '../types';
+import { evaluateFormula, generateNormalRandom, runSimulation } from '../src/services/mathUtils';
+import type { SimulationConfig, InputVariable } from '../src/types';
 
 describe('mathUtils', () => {
   describe('evaluateFormula', () => {
@@ -38,12 +38,12 @@ describe('mathUtils', () => {
     });
 
     it('should generate different numbers on subsequent calls', () => {
-        const mean = 10;
-        const stdDev = 2;
-        const result1 = generateNormalRandom(mean, stdDev);
-        const result2 = generateNormalRandom(mean, stdDev);
-        expect(result1).not.toBe(result2);
-      });
+      const mean = 10;
+      const stdDev = 2;
+      const result1 = generateNormalRandom(mean, stdDev);
+      const result2 = generateNormalRandom(mean, stdDev);
+      expect(result1).not.toBe(result2);
+    });
   });
 
   describe('runSimulation', () => {
@@ -74,21 +74,21 @@ describe('mathUtils', () => {
     });
 
     it('should handle a simulation with defects', () => {
-        const config: SimulationConfig = {
-          formula: 'x',
-          iterations: 100,
-          lsl: 5,
-          usl: 15,
-        };
-        const variables: InputVariable[] = [
-          { id: '1', name: 'x', mean: 10, stdDev: 5, type: 'normal' }, // High std dev to generate defects
-        ];
-  
-        const results = runSimulation(variables, config);
-  
-        expect(results.data.length).toBe(100);
-        expect(results.defects).toBeGreaterThan(0);
-        expect(results.dpmo).toBeGreaterThan(0);
-      });
+      const config: SimulationConfig = {
+        formula: 'x',
+        iterations: 100,
+        lsl: 5,
+        usl: 15,
+      };
+      const variables: InputVariable[] = [
+        { id: '1', name: 'x', mean: 10, stdDev: 5, type: 'normal' }, // High std dev to generate defects
+      ];
+
+      const results = runSimulation(variables, config);
+
+      expect(results.data.length).toBe(100);
+      expect(results.defects).toBeGreaterThan(0);
+      expect(results.dpmo).toBeGreaterThan(0);
+    });
   });
 });
