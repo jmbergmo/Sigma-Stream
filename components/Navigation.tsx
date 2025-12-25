@@ -30,11 +30,11 @@ const Navigation: React.FC<NavigationProps> = ({ activeTab, onChange }) => {
         <div
           className="absolute top-1 bottom-1 left-1 bg-slate-700 rounded-full shadow-sm transition-transform duration-300 ease-spring z-0 border border-slate-600"
           style={{
-            // Width = (100% - padding(0.5rem) - 4*gaps(1rem)) / 5
+            // Width = (100% - padding(0.5rem) - 3*gaps(1rem)) / 4
             // p-1 is 0.25rem * 2 = 0.5rem total horizontal padding
-            // gap-4 is 1rem. 4 gaps = 4rem.
-            // Total deduction = 4.5rem
-            width: 'calc((100% - 4.5rem) / 5)',
+            // gap-4 is 1rem. 3 gaps = 3rem.
+            // Total deduction = 3.5rem
+            width: 'calc((100% - 3.5rem) / 4)',
             transform: `translateX(${getTranslateX(activeTab)})`
           }}
         />
