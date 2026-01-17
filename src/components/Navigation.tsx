@@ -16,25 +16,27 @@ const Navigation: React.FC<NavigationProps> = ({ activeTab, onChange }) => {
 
   const getTranslateX = (tabId: ActiveTab) => {
     const index = tabs.findIndex(t => t.id === tabId);
-    // Move by (100% width of pill + 1rem gap) * index
-    // Gap is 1rem (gap-4)
-    return `calc((100% + 1rem) * ${index})`;
+    return `calc((100% + var(--nav-gap)) * ${index})`;
   };
 
   return (
     <div className="flex justify-center w-full md:w-auto">
       {/* Dark mode styled container with gaps for separation */}
-      <div className="bg-slate-800/50 p-1 rounded-full relative border border-slate-700/50 grid grid-cols-4 gap-4 w-full max-w-xl min-w-[460px]">
+      <div
+        className="
+          bg-slate-800/50 p-1 rounded-full relative border border-slate-700/50
+          grid grid-cols-4 w-full max-w-xl
+          gap-[var(--nav-gap)]
+          min-w-0 sm:min-w-[460px]
+        "
+      >
 
         {/* The sliding bean */}
         <div
           className="absolute top-1 bottom-1 left-1 bg-slate-700 rounded-full shadow-sm transition-transform duration-300 ease-spring z-0 border border-slate-600"
           style={{
-            // Width = (100% - padding(0.5rem) - 3*gaps(1rem)) / 4
-            // p-1 is 0.25rem * 2 = 0.5rem total horizontal padding
-            // gap-4 is 1rem. 3 gaps = 3rem.
-            // Total deduction = 3.5rem
-            width: 'calc((100% - 3.5rem) / 4)',
+            // Width = (100% - padding(0.5rem) - 3*gaps) / 4
+            width: 'calc((100% - 0.5rem - (3 * var(--nav-gap))) / 4)',
             transform: `translateX(${getTranslateX(activeTab)})`
           }}
         />
@@ -44,7 +46,8 @@ const Navigation: React.FC<NavigationProps> = ({ activeTab, onChange }) => {
             key={tab.id}
             onClick={() => onChange(tab.id)}
             className={`
-              relative z-10 h-9 flex items-center justify-center text-xs font-bold transition-colors duration-200 select-none uppercase tracking-widest
+              relative z-10 h-9 flex items-center justify-center text-xs font-bold transition-colors duration-200 select-none uppercase
+              tracking-tight sm:tracking-widest
               ${activeTab === tab.id ? 'text-white' : 'text-slate-400 hover:text-slate-200'}
             `}
           >
@@ -54,6 +57,14 @@ const Navigation: React.FC<NavigationProps> = ({ activeTab, onChange }) => {
       </div>
 
       <style>{`
+        :root {
+          --nav-gap: 0.5rem; /* gap-2 matches 0.5rem */
+        }
+        @media (min-width: 640px) {
+          :root {
+            --nav-gap: 1rem; /* gap-4 matches 1rem */
+          }
+        }
         .ease-spring {
           transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
         }
