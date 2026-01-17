@@ -30,6 +30,7 @@ const App: React.FC = () => {
   const handleGenerateDesign = (factors: DoeFactor[]) => {
     setDoeFactors(factors);
     setDoeRuns(generateFullFactorialDesign(factors));
+    setActiveTab('output');
   };
 
   // Demo Logic
