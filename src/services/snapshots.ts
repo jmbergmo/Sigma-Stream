@@ -1,5 +1,4 @@
-import { collection, addDoc, query, where, getDocs, deleteDoc, doc, Timestamp } from 'firebase/firestore';
-import { db, auth } from './firebase';
+import { supabase } from './supabase';
 import { DoeFactor } from '../types';
 
 export interface Snapshot {
@@ -11,29 +10,40 @@ export interface Snapshot {
 }
 
 export const saveSnapshot = async (name: string, factors: DoeFactor[]) => {
-    if (!auth.currentUser) throw new Error("User must be logged in");
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) throw new Error("User must be logged in");
 
-    await addDoc(collection(db, 'snapshots'), {
+    const { error } = await supabase.from('snapshots').insert({
         name,
         factors,
-        createdAt: Timestamp.now(),
-        userId: auth.currentUser.uid
+        created_at: new Date().toISOString(),
+        user_id: user.id
     });
+
+    if (error) throw error;
 };
 
 export const getSnapshots = async (): Promise<Snapshot[]> => {
-    if (!auth.currentUser) return [];
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return [];
 
-    const q = query(collection(db, 'snapshots'), where("userId", "==", auth.currentUser.uid));
-    const querySnapshot = await getDocs(q);
+    const { data, error } = await supabase
+        .from('snapshots')
+        .select('*')
+        .eq('user_id', user.id);
 
-    return querySnapshot.docs.map(doc => ({
+    if (error) throw error;
+
+    return data.map((doc: any) => ({
         id: doc.id,
-        ...doc.data(),
-        createdAt: doc.data().createdAt.toDate()
+        name: doc.name,
+        factors: doc.factors,
+        createdAt: new Date(doc.created_at),
+        userId: doc.user_id
     })) as Snapshot[];
 };
 
 export const deleteSnapshot = async (id: string) => {
-    await deleteDoc(doc(db, 'snapshots', id));
+    const { error } = await supabase.from('snapshots').delete().eq('id', id);
+    if (error) throw error;
 };

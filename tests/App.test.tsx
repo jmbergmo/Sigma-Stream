@@ -28,22 +28,23 @@ const { mockRunSimulation } = vi.hoisted(() => {
 
 
 
-// Mock firebase/auth
-vi.mock('firebase/auth', () => ({
-  getAuth: vi.fn(),
-  onAuthStateChanged: vi.fn((auth, callback) => {
-    callback(null); // Simulate no user logged in
-    return () => { };
-  }),
-  GoogleAuthProvider: vi.fn(),
-  signInWithPopup: vi.fn(),
-  signOut: vi.fn(),
-}));
 
-// Mock the firebase service
-vi.mock('../src/services/firebase', () => ({
-  auth: {},
-  db: {},
+// Mock the supabase service
+vi.mock('../src/services/supabase', () => ({
+  supabase: {
+    auth: {
+      getSession: vi.fn().mockResolvedValue({ data: { session: null }, error: null }),
+      onAuthStateChange: vi.fn().mockReturnValue({ data: { subscription: { unsubscribe: vi.fn() } } }),
+      signInWithOAuth: vi.fn(),
+      signOut: vi.fn(),
+    },
+    from: vi.fn(() => ({
+      select: vi.fn().mockReturnThis(),
+      insert: vi.fn().mockReturnThis(),
+      delete: vi.fn().mockReturnThis(),
+      eq: vi.fn().mockResolvedValue({ data: [], error: null }),
+    })),
+  },
 }));
 
 // Mock the entire mathUtils module
@@ -61,7 +62,7 @@ describe('App Button Test', () => {
     render(<App />);
 
     // 1. Find the button
-    const demoButton = screen.getByRole('button', { name: /demo/i });
+    const demoButton = await screen.findByRole('button', { name: /demo/i });
 
     // 2. Click the button
     fireEvent.click(demoButton);
