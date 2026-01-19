@@ -12,6 +12,7 @@ const Navigation: React.FC<NavigationProps> = ({ activeTab, onChange }) => {
     { id: 'output', label: 'Output' },
     { id: 'history', label: 'History' },
     { id: 'blog', label: 'Blog' },
+    { id: 'account', label: 'Account' },
   ];
 
   const getTranslateX = (tabId: ActiveTab) => {
@@ -25,7 +26,7 @@ const Navigation: React.FC<NavigationProps> = ({ activeTab, onChange }) => {
       <div
         className="
           bg-slate-800/50 p-1 rounded-full relative border border-slate-700/50
-          grid grid-cols-4 w-full max-w-xl
+          grid grid-cols-5 w-full max-w-xl
           gap-[var(--nav-gap)]
           min-w-0 sm:min-w-[460px]
         "
@@ -35,8 +36,8 @@ const Navigation: React.FC<NavigationProps> = ({ activeTab, onChange }) => {
         <div
           className="absolute top-1 bottom-1 left-1 bg-slate-700 rounded-full shadow-sm transition-transform duration-300 ease-spring z-0 border border-slate-600"
           style={{
-            // Width = (100% - padding(0.5rem) - 3*gaps) / 4
-            width: 'calc((100% - 0.5rem - (3 * var(--nav-gap))) / 4)',
+            // Width = (100% - padding(0.5rem) - 4*gaps) / 5
+            width: 'calc((100% - 0.5rem - (4 * var(--nav-gap))) / 5)',
             transform: `translateX(${getTranslateX(activeTab)})`
           }}
         />

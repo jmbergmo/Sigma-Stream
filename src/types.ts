@@ -35,7 +35,7 @@ export interface HistogramBin {
   count: number;
 }
 
-export type ActiveTab = 'input' | 'output' | 'history' | 'blog';
+export type ActiveTab = 'input' | 'output' | 'history' | 'blog' | 'account';
 
 // New types for DOE
 export interface DoeFactor {

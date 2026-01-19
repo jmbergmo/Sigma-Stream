@@ -5,6 +5,7 @@ import InputTab from './components/input/InputTab';
 import OutputTab from './components/output/OutputTab';
 import HistoryTab from './components/history/HistoryTab';
 import BlogTab from './components/blog/BlogTab';
+import AccountTab from './components/account/AccountTab';
 import { ActiveTab, DoeFactor, DoeRun, YSpecs, OptimizationSpecs } from './types';
 import { generateFullFactorialDesign } from './services/mathUtils';
 
@@ -112,6 +113,7 @@ const App: React.FC = () => {
               )}
               {activeTab === 'history' && <HistoryTab />}
               {activeTab === 'blog' && <BlogTab />}
+              {activeTab === 'account' && <AccountTab />}
             </div>
           </main>
 
