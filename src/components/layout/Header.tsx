@@ -1,6 +1,6 @@
 import React from 'react';
 import Navigation from './Navigation';
-import { ActiveTab } from '../types';
+import { ActiveTab } from '../../types';
 
 interface HeaderProps {
   activeTab: ActiveTab;

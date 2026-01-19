@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Header from './components/Header';
+import Header from './components/layout/Header';
 import { AuthProvider } from './components/auth/AuthContext';
 import InputTab from './components/input/InputTab';
 import OutputTab from './components/output/OutputTab';
