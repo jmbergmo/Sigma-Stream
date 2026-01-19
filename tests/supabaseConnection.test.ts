@@ -1,5 +1,17 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { supabase } from '../src/services/supabase';
+
+// Mock the supabase client to avoid needing real credentials for this test
+vi.mock('../src/services/supabase', () => ({
+    supabase: {
+        auth: {
+            getSession: vi.fn().mockResolvedValue({
+                data: { session: {} },
+                error: null
+            })
+        }
+    }
+}));
 
 describe('Supabase Client Connection', () => {
     it('should be initialized', () => {

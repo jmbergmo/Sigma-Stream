@@ -27,9 +27,11 @@ const Header: React.FC<HeaderProps> = ({ activeTab, onTabChange, onDemo, onClear
 
           {/* Logo Area */}
           <div className="flex items-center gap-3">
-            <div className="bg-gradient-to-br from-indigo-500 to-purple-500 w-10 h-10 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-500/20 ring-1 ring-white/10">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
-            </div>
+            <img
+              src="/favicon.svg"
+              alt="Sigma Stream Logo"
+              className="w-10 h-10 rounded-xl shadow-lg shadow-indigo-500/20 ring-1 ring-white/10"
+            />
             <div>
               <h1 className="text-2xl font-bold tracking-tight text-white">
                 Sigma Stream
