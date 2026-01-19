@@ -24,6 +24,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        if (!supabase) {
+            setLoading(false);
+            return;
+        }
+
         // Check active sessions and sets the user
         supabase.auth.getSession().then(({ data: { session } }) => {
             setCurrentUser(session?.user ?? null);
@@ -41,6 +46,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     const signInWithGoogle = async () => {
         try {
+            if (!supabase) {
+                console.warn("Supabase not initialized");
+                return;
+            }
             const { error } = await supabase.auth.signInWithOAuth({
                 provider: 'google',
             });
@@ -53,6 +62,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     const logout = async () => {
         try {
+            if (!supabase) return;
             const { error } = await supabase.auth.signOut();
             if (error) throw error;
         } catch (error) {

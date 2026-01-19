@@ -10,6 +10,8 @@ export interface Snapshot {
 }
 
 export const saveSnapshot = async (name: string, factors: DoeFactor[]) => {
+    if (!supabase) throw new Error("Database not connected");
+
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) throw new Error("User must be logged in");
 
@@ -24,6 +26,8 @@ export const saveSnapshot = async (name: string, factors: DoeFactor[]) => {
 };
 
 export const getSnapshots = async (): Promise<Snapshot[]> => {
+    if (!supabase) return [];
+
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return [];
 
@@ -44,6 +48,7 @@ export const getSnapshots = async (): Promise<Snapshot[]> => {
 };
 
 export const deleteSnapshot = async (id: string) => {
+    if (!supabase) throw new Error("Database not connected");
     const { error } = await supabase.from('snapshots').delete().eq('id', id);
     if (error) throw error;
 };
