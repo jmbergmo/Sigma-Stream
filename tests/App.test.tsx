@@ -26,6 +26,26 @@ const { mockRunSimulation } = vi.hoisted(() => {
   };
 });
 
+
+
+// Mock firebase/auth
+vi.mock('firebase/auth', () => ({
+  getAuth: vi.fn(),
+  onAuthStateChanged: vi.fn((auth, callback) => {
+    callback(null); // Simulate no user logged in
+    return () => { };
+  }),
+  GoogleAuthProvider: vi.fn(),
+  signInWithPopup: vi.fn(),
+  signOut: vi.fn(),
+}));
+
+// Mock the firebase service
+vi.mock('../src/services/firebase', () => ({
+  auth: {},
+  db: {},
+}));
+
 // Mock the entire mathUtils module
 vi.mock('../src/services/mathUtils', () => ({
   generateFullFactorialDesign: () => [{ id: 1, factors: {}, y: null }], // Return 1 dummy item
