@@ -128,7 +128,19 @@ const InteractionEffects: React.FC<InteractionEffectsProps> = ({ runs, factors }
                     label={{ value: selectedInteractionPlotData.factor1Name, position: 'insideBottom', offset: -10 }}
                     ticks={[selectedInteractionPlotData.low1, selectedInteractionPlotData.high1]}
                   />
-                  <YAxis domain={['dataMin', 'dataMax']} padding={{ top: 20, bottom: 20 }} label={{ value: 'Mean Response', angle: -90, position: 'insideLeft' }} />
+                  <YAxis
+                    domain={['dataMin', 'dataMax']}
+                    padding={{ top: 20, bottom: 20 }}
+                    label={{ value: 'Mean Response', angle: -90, position: 'insideLeft' }}
+                    tickFormatter={(val) => {
+                      if (val === 0) return '0';
+                      const with3SigFigs = parseFloat(val.toPrecision(3));
+                      if (Math.abs(val - with3SigFigs) > Number.EPSILON) {
+                        return val.toExponential(2);
+                      }
+                      return val.toString();
+                    }}
+                  />
                   <Tooltip />
                   <Legend verticalAlign="top" />
                   <Line type="monotone" dataKey={`${selectedInteractionPlotData.factor2Name}=${selectedInteractionPlotData.low2}`} stroke="#8884d8" strokeWidth={2} />
