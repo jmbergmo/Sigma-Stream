@@ -28,7 +28,7 @@ const Header: React.FC<HeaderProps> = ({ activeTab, onTabChange, onDemo, onClear
           {/* Logo Area */}
           <div className="flex items-center gap-3">
             <img
-              src="public/favicon.svg"
+              src="/favicon.svg"
               alt="Sigma Stream Logo"
               className="w-10 h-10 rounded-xl shadow-lg shadow-indigo-500/20 ring-1 ring-white/10"
             />
