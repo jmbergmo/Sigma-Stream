@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { GoogleAuthProvider, signInWithPopup, User, signOut, onAuthStateChanged } from 'firebase/auth';
-import { auth } from '../../services/firebase';
+import { User } from '@supabase/supabase-js';
+import { supabase } from '../../services/supabase';
 
 interface AuthContextType {
     currentUser: User | null;
@@ -24,25 +24,41 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (user) => {
-            setCurrentUser(user);
+        // Check active sessions and sets the user
+        supabase.auth.getSession().then(({ data: { session } }) => {
+            setCurrentUser(session?.user ?? null);
             setLoading(false);
         });
-        return unsubscribe;
+
+        // Listen for changes on auth state (logged in, signed out, etc.)
+        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+            setCurrentUser(session?.user ?? null);
+            setLoading(false);
+        });
+
+        return () => subscription.unsubscribe();
     }, []);
 
     const signInWithGoogle = async () => {
-        const provider = new GoogleAuthProvider();
         try {
-            await signInWithPopup(auth, provider);
+            const { error } = await supabase.auth.signInWithOAuth({
+                provider: 'google',
+            });
+            if (error) throw error;
         } catch (error) {
             console.error("Error signing in with Google", error);
             throw error;
         }
     };
 
-    const logout = () => {
-        return signOut(auth);
+    const logout = async () => {
+        try {
+            const { error } = await supabase.auth.signOut();
+            if (error) throw error;
+        } catch (error) {
+            console.error("Error signing out", error);
+            throw error;
+        }
     };
 
     const value = {
