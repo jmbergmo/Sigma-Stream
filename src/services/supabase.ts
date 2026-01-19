@@ -5,6 +5,8 @@ const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
 
 if (!supabaseUrl || !supabaseAnonKey) {
     console.warn('Missing Supabase environment variables - Authentication and Database features will be disabled.');
+} else {
+    console.log('Supabase initialized with URL:', supabaseUrl);
 }
 
 export const supabase = (supabaseUrl && supabaseAnonKey)

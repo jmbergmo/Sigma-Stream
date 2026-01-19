@@ -38,16 +38,16 @@ const AccountTab: React.FC = () => {
                 ) : (
                     <div className="space-y-6">
                         <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 p-6 bg-slate-50 rounded-xl border border-slate-100">
-                            {currentUser.photoURL ? (
-                                <img src={currentUser.photoURL} alt="Profile" className="w-20 h-20 rounded-full border-4 border-white shadow-sm" />
+                            {currentUser.user_metadata.avatar_url ? (
+                                <img src={currentUser.user_metadata.avatar_url} alt="Profile" className="w-20 h-20 rounded-full border-4 border-white shadow-sm" />
                             ) : (
                                 <div className="w-20 h-20 rounded-full bg-slate-200 border-4 border-white shadow-sm flex items-center justify-center text-2xl font-bold text-slate-500">
-                                    {currentUser.displayName?.[0] || 'U'}
+                                    {currentUser.user_metadata.full_name?.[0] || currentUser.email?.[0] || 'U'}
                                 </div>
                             )}
 
                             <div className="flex-1 text-center sm:text-left space-y-1">
-                                <h3 className="text-xl font-bold text-slate-900">{currentUser.displayName}</h3>
+                                <h3 className="text-xl font-bold text-slate-900">{currentUser.user_metadata.full_name || currentUser.email}</h3>
                                 <p className="text-slate-500">{currentUser.email}</p>
                                 <div className="pt-2">
                                     <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
@@ -77,6 +77,16 @@ const AccountTab: React.FC = () => {
                         </div>
                     </div>
                 )}
+            </div>
+
+            {/* DEBUG SECTION - REMOVE LATER */}
+            <div className="bg-orange-50 p-4 rounded-xl border border-orange-200 text-xs font-mono overflow-auto">
+                <h4 className="font-bold text-orange-800 mb-2">DEBUG INFO</h4>
+                <div>User: {currentUser ? currentUser.email : 'NULL'}</div>
+                <div>ID: {currentUser?.id}</div>
+                <div className="mt-2 text-slate-500">
+                    Supabase URL: {import.meta.env.VITE_SUPABASE_URL}
+                </div>
             </div>
         </div>
     );
