@@ -134,11 +134,21 @@ const InteractionEffects: React.FC<InteractionEffectsProps> = ({ runs, factors }
                     label={{ value: 'Mean Response', angle: -90, position: 'insideLeft' }}
                     tickFormatter={(val) => {
                       if (val === 0) return '0';
-                      const with3SigFigs = parseFloat(val.toPrecision(3));
-                      if (Math.abs(val - with3SigFigs) > Number.EPSILON) {
-                        return val.toExponential(2);
+                      const abs = Math.abs(val);
+
+                      // Whole integers for 1 to 1000
+                      if (abs >= 1 && abs <= 1000) {
+                        return Math.round(val).toString();
                       }
-                      return val.toString();
+
+                      // Two sig figs for 0.01 to 1
+                      if (abs >= 0.01 && abs < 1) {
+                        return val.toPrecision(2);
+                      }
+
+                      // Scientific notation with two sig figs otherwise
+                      // toExponential(1) gives 1 decimal place, e.g. 1.2e+5 (2 significant figures)
+                      return val.toExponential(1);
                     }}
                   />
                   <Tooltip />
