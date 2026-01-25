@@ -91,20 +91,23 @@ const App: React.FC = () => {
 
     const serialized = serializeState(currentState);
 
-    setSearchParams(prev => {
-      // Only update if changed to avoid loops?
-      // useSearchParams should be stable.
-      // We preserve other params if any (React Router handles this via setSearchParams, but we need to pass new object)
-      const newParams = new URLSearchParams(prev);
-      if (serialized) {
-        newParams.set('state', serialized);
-      } else {
-        newParams.delete('state');
-      }
-      return newParams;
-    }, { replace: true });
+    const currentSerialized = searchParams.get('state');
+    if (currentSerialized !== serialized) {
+      setSearchParams(prev => {
+        // Only update if changed to avoid loops?
+        // useSearchParams should be stable.
+        // We preserve other params if any (React Router handles this via setSearchParams, but we need to pass new object)
+        const newParams = new URLSearchParams(prev);
+        if (serialized) {
+          newParams.set('state', serialized);
+        } else {
+          newParams.delete('state');
+        }
+        return newParams;
+      }, { replace: true });
+    }
 
-  }, [doeFactors, doeRuns, ySpecs, optimizerInputs, setSearchParams]);
+  }, [doeFactors, doeRuns, ySpecs, optimizerInputs, setSearchParams, searchParams]);
 
   // Generator handler
   const handleGenerateDesign = (factors: DoeFactor[]) => {

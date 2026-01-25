@@ -3,15 +3,34 @@ import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { vi } from 'vitest';
 import App from '../src/App';
-import { MemoryRouter, Routes, Route } from 'react-router-dom';
+import * as ReactRouterDom from 'react-router-dom';
+const { MemoryRouter, Routes, Route } = ReactRouterDom;
 import { OutputWrapper } from '../src/routes/Wrappers';
 
+// Mock useSearchParams to avoid invalidating MemoryRouter state during test
+vi.mock('react-router-dom', async () => {
+  const actual = await vi.importActual('react-router-dom');
+  return {
+    ...actual,
+    useSearchParams: () => [new URLSearchParams(), vi.fn()],
+  };
+});
+
+// Mock ResizeObserver
 // Mock ResizeObserver
 global.ResizeObserver = class ResizeObserver {
   observe() { }
   unobserve() { }
   disconnect() { }
 };
+
+// Polyfill btoa/atob
+if (typeof global.btoa === 'undefined') {
+  global.btoa = (str) => Buffer.from(str, 'binary').toString('base64');
+}
+if (typeof global.atob === 'undefined') {
+  global.atob = (b64Encoded) => Buffer.from(b64Encoded, 'base64').toString('binary');
+}
 
 // Mock Recharts to avoid rendering issues in JSDOM
 vi.mock('recharts', () => {
