@@ -1,15 +1,12 @@
 import React from 'react';
 import Navigation from './Navigation';
-import { ActiveTab } from '../../types';
 
 interface HeaderProps {
-  activeTab: ActiveTab;
-  onTabChange: (tab: ActiveTab) => void;
   onDemo: () => void;
   onClear: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ activeTab, onTabChange, onDemo, onClear }) => {
+const Header: React.FC<HeaderProps> = ({ onDemo, onClear }) => {
   const ActionButtons = () => (
     <div className="flex items-center justify-center gap-4 md:gap-6">
       <div className="relative group">
@@ -61,17 +58,19 @@ const Header: React.FC<HeaderProps> = ({ activeTab, onTabChange, onDemo, onClear
           <div className="flex items-center justify-between w-full lg:w-auto">
             {/* Logo Group */}
             <div className="flex items-center gap-3">
-              <img
-                src="/favicon.svg"
-                alt="Sigma Stream Logo"
-                className="w-10 h-10 rounded-xl shadow-lg shadow-indigo-500/20 ring-1 ring-white/10"
-              />
-              <div>
-                <h1 className="text-2xl font-bold tracking-tight text-white">
-                  Sigma Stream
-                </h1>
-                <p className="text-[10px] text-slate-400 font-mono tracking-wider uppercase">Beta v0.3</p>
-              </div>
+              <a href="/" className="flex items-center gap-3">
+                <img
+                  src="/favicon.svg"
+                  alt="Sigma Stream Logo"
+                  className="w-10 h-10 rounded-xl shadow-lg shadow-indigo-500/20 ring-1 ring-white/10"
+                />
+                <div>
+                  <h1 className="text-2xl font-bold tracking-tight text-white">
+                    Sigma Stream
+                  </h1>
+                  <p className="text-[10px] text-slate-400 font-mono tracking-wider uppercase">Beta v0.3</p>
+                </div>
+              </a>
             </div>
 
             {/* Mobile Buttons (Right aligned next to logo) */}
@@ -90,7 +89,7 @@ const Header: React.FC<HeaderProps> = ({ activeTab, onTabChange, onDemo, onClear
 
             <div className="h-6 w-px bg-slate-700 mx-2 hidden lg:block"></div>
 
-            <Navigation activeTab={activeTab} onChange={onTabChange} />
+            <Navigation />
           </div>
 
           {/* Placeholder for balance on Desktop */}

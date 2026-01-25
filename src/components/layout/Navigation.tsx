@@ -1,22 +1,30 @@
-import React from 'react';
-import { ActiveTab } from '../../types';
+import React, { useMemo } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 
-interface NavigationProps {
-  activeTab: ActiveTab;
-  onChange: (tab: ActiveTab) => void;
-}
+const Navigation: React.FC = () => {
+  const location = useLocation();
+  const currentPath = location.pathname;
 
-const Navigation: React.FC<NavigationProps> = ({ activeTab, onChange }) => {
-  const tabs: { id: ActiveTab; label: string }[] = [
-    { id: 'input', label: 'Input' },
-    { id: 'output', label: 'Output' },
-    { id: 'history', label: 'History' },
-    { id: 'blog', label: 'Blog' },
-    { id: 'account', label: 'Account' },
+  const tabs = [
+    { id: 'inputs', label: 'Input', path: '/inputs' },
+    { id: 'results', label: 'Output', path: '/results' },
+    { id: 'history', label: 'History', path: '/history' },
+    { id: 'blog', label: 'Blog', path: '/blog' },
+    { id: 'account', label: 'Account', path: '/account' },
   ];
 
-  const getTranslateX = (tabId: ActiveTab) => {
-    const index = tabs.findIndex(t => t.id === tabId);
+  // Map path to index for the slider
+  const activeIndex = useMemo(() => {
+    // Check key paths or exact match
+    if (currentPath === '/' || currentPath === '/inputs') return 0;
+    if (currentPath.startsWith('/results')) return 1;
+    if (currentPath.startsWith('/history')) return 2;
+    if (currentPath.startsWith('/blog')) return 3;
+    if (currentPath.startsWith('/account')) return 4;
+    return 0; // Default to Input
+  }, [currentPath]);
+
+  const getTranslateX = (index: number) => {
     return `calc((100% + var(--nav-gap)) * ${index})`;
   };
 
@@ -38,22 +46,22 @@ const Navigation: React.FC<NavigationProps> = ({ activeTab, onChange }) => {
           style={{
             // Width = (100% - padding(0.5rem) - 4*gaps) / 5
             width: 'calc((100% - 0.5rem - (4 * var(--nav-gap))) / 5)',
-            transform: `translateX(${getTranslateX(activeTab)})`
+            transform: `translateX(${getTranslateX(activeIndex)})`
           }}
         />
 
-        {tabs.map((tab) => (
-          <button
+        {tabs.map((tab, index) => (
+          <Link
             key={tab.id}
-            onClick={() => onChange(tab.id)}
+            to={tab.path}
             className={`
               relative z-10 h-9 flex items-center justify-center text-xs font-bold transition-colors duration-200 select-none uppercase
               tracking-tight sm:tracking-widest
-              ${activeTab === tab.id ? 'text-white' : 'text-slate-400 hover:text-slate-200'}
+              ${index === activeIndex ? 'text-white' : 'text-slate-400 hover:text-slate-200'}
             `}
           >
             {tab.label}
-          </button>
+          </Link>
         ))}
       </div>
 

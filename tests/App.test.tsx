@@ -57,9 +57,19 @@ vi.mock('../src/services/mathUtils', () => ({
   createHistogramData: () => [],
 }));
 
+import { MemoryRouter, Routes, Route } from 'react-router-dom';
+
 describe('App Button Test', () => {
   test('clicking demo button switches view and runs simulation', async () => {
-    render(<App />);
+    render(
+      <MemoryRouter initialEntries={['/']}>
+        <Routes>
+          <Route path="/" element={<App />}>
+            <Route path="results" element={<div>AI Black Belt Insights Mock</div>} />
+          </Route>
+        </Routes>
+      </MemoryRouter>
+    );
 
     // 1. Find the button (returns array due to responsive duplicates)
     const demoButtons = await screen.findAllByRole('button', { name: /demo/i });
@@ -71,7 +81,7 @@ describe('App Button Test', () => {
     // 3. Verify the "Output" view is now visible
     // (This confirms the click handler fired and updated state)
     // Use findByText which waits for the element to appear
-    expect(await screen.findByText(/AI Black Belt Insights/i)).toBeInTheDocument();
+    expect(await screen.findByText(/AI Black Belt Insights Mock/i)).toBeInTheDocument();
 
     // 4. Verify that the simulation was called
     expect(mockRunSimulation).toHaveBeenCalled();

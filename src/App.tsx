@@ -1,16 +1,14 @@
+
 import React, { useState } from 'react';
+import { Outlet, useNavigate } from 'react-router-dom';
 import Header from './components/layout/Header';
 import { AuthProvider } from './components/auth/AuthContext';
-import InputTab from './components/input/InputTab';
-import OutputTab from './components/output/OutputTab';
-import HistoryTab from './components/history/HistoryTab';
-import BlogTab from './components/blog/BlogTab';
-import AccountTab from './components/account/AccountTab';
-import { ActiveTab, DoeFactor, DoeRun, YSpecs, OptimizationSpecs } from './types';
+import { DoeFactor, DoeRun, YSpecs, OptimizationSpecs } from './types';
 import { generateFullFactorialDesign } from './services/mathUtils';
+import { AppContextType } from './context/OutletContext';
 
 const App: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<ActiveTab>('input');
+  const navigate = useNavigate();
 
   // Shared DOE State
   const [doeFactors, setDoeFactors] = useState<DoeFactor[]>([
@@ -32,7 +30,7 @@ const App: React.FC = () => {
   const handleGenerateDesign = (factors: DoeFactor[]) => {
     setDoeFactors(factors);
     setDoeRuns(generateFullFactorialDesign(factors));
-    setActiveTab('output');
+    navigate('/results');
   };
 
   // Demo Logic
@@ -63,7 +61,7 @@ const App: React.FC = () => {
     setYSpecs({ target: '8', lsl: '7', usl: '9' });
 
     // 4. Switch to Output tab
-    setActiveTab('output');
+    navigate('/results');
 
     // 5. Trigger Demo Sequence
     setDemoActive(true);
@@ -75,15 +73,26 @@ const App: React.FC = () => {
     setYSpecs({ target: '', lsl: '', usl: '' });
     setOptimizerInputs({});
     setDemoActive(false);
-    setActiveTab('input');
+    navigate('/inputs');
+  };
+
+  const contextValue: AppContextType = {
+    doeFactors,
+    doeRuns,
+    setDoeRuns,
+    ySpecs,
+    setYSpecs,
+    optimizerInputs,
+    setOptimizerInputs,
+    demoActive,
+    setDemoActive,
+    handleGenerateDesign
   };
 
   return (
     <AuthProvider>
       <div className="min-h-screen flex flex-col bg-slate-50/50 h-screen overflow-hidden">
         <Header
-          activeTab={activeTab}
-          onTabChange={setActiveTab}
           onDemo={handleDemo}
           onClear={handleClear}
         />
@@ -92,28 +101,7 @@ const App: React.FC = () => {
           {/* Main Content Area - Scrollable */}
           <main className="flex-1 w-full overflow-y-auto px-4 md:px-6 py-8">
             <div className="max-w-7xl mx-auto">
-              {activeTab === 'input' && (
-                <InputTab
-                  factors={doeFactors}
-                  onGenerate={handleGenerateDesign}
-                />
-              )}
-              {activeTab === 'output' && (
-                <OutputTab
-                  runs={doeRuns}
-                  factors={doeFactors}
-                  onUpdateRuns={setDoeRuns}
-                  ySpecs={ySpecs}
-                  onYSpecsChange={setYSpecs}
-                  optimizerInputs={optimizerInputs}
-                  onOptimizerInputsChange={setOptimizerInputs}
-                  demoActive={demoActive}
-                  onDemoComplete={() => setDemoActive(false)}
-                />
-              )}
-              {activeTab === 'history' && <HistoryTab />}
-              {activeTab === 'blog' && <BlogTab />}
-              {activeTab === 'account' && <AccountTab />}
+              <Outlet context={contextValue} />
             </div>
           </main>
 
