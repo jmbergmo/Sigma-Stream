@@ -1,6 +1,7 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import { DoeRun, DoeFactor } from '../../types';
 import { calculateInteractionEffects } from '../../services/mathUtils';
+import { formatAxisNumber } from '../../services/formatUtils';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend, ReferenceLine } from 'recharts';
 
 interface InteractionEffectsProps {
@@ -21,9 +22,7 @@ const InteractionEffects: React.FC<InteractionEffectsProps> = ({ runs, factors }
     }
   }, [interactionData]);
 
-  const handleInteractionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedInteraction(event.target.value);
-  };
+
 
   const selectedInteractionPlotData = useMemo(() => {
     if (!selectedInteraction) return null;
@@ -98,9 +97,21 @@ const InteractionEffects: React.FC<InteractionEffectsProps> = ({ runs, factors }
               </thead>
               <tbody>
                 {interactionData.map((d, i) => (
-                  <tr key={i} className="bg-white border-b hover:bg-slate-50">
-                    <td className="px-4 py-3 font-semibold">{`${d.factor1} * ${d.factor2}`}</td>
-                    <td className="px-4 py-3 font-mono text-right">{d.interaction.toFixed(4)}</td>
+                  // Table Row Changes
+                  <tr
+                    key={i}
+                    onClick={() => setSelectedInteraction(`${d.factor1} * ${d.factor2}`)}
+                    className={`border-b cursor-pointer transition-colors ${selectedInteraction === `${d.factor1} * ${d.factor2}`
+                      ? 'bg-indigo-50 border-indigo-100'
+                      : 'bg-white hover:bg-slate-50'
+                      }`}
+                  >
+                    <td className={`px-4 py-3 font-semibold ${selectedInteraction === `${d.factor1} * ${d.factor2}` ? 'text-indigo-700' : 'text-slate-700'}`}>
+                      {`${d.factor1} * ${d.factor2}`}
+                    </td>
+                    <td className={`px-4 py-3 font-mono text-right ${selectedInteraction === `${d.factor1} * ${d.factor2}` ? 'text-indigo-700' : 'text-slate-600'}`}>
+                      {d.interaction.toFixed(4)}
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -110,11 +121,9 @@ const InteractionEffects: React.FC<InteractionEffectsProps> = ({ runs, factors }
         <div className="lg:col-span-7">
           <div className='flex justify-between items-center mb-2'>
             <h3 className="font-bold text-slate-700">Interaction Plot</h3>
-            <select onChange={handleInteractionChange} value={selectedInteraction} className="text-sm bg-white border border-slate-300 rounded px-2 py-1 focus:ring-2 focus:ring-indigo-500 outline-none">
-              {interactionData.map(d => (
-                <option key={`${d.factor1}-${d.factor2}`} value={`${d.factor1} * ${d.factor2}`}>{`${d.factor1} * ${d.factor2}`}</option>
-              ))}
-            </select>
+            <div className="text-sm font-medium text-slate-500 bg-slate-100 px-3 py-1 rounded-full">
+              {selectedInteraction || 'Select an interaction'}
+            </div>
           </div>
           <div className='h-[300px] bg-slate-50 rounded-lg border border-slate-200 flex items-center justify-center'>
             {selectedInteractionPlotData ? (
@@ -132,24 +141,7 @@ const InteractionEffects: React.FC<InteractionEffectsProps> = ({ runs, factors }
                     domain={['dataMin', 'dataMax']}
                     padding={{ top: 20, bottom: 20 }}
                     label={{ value: 'Mean Response', angle: -90, position: 'insideLeft' }}
-                    tickFormatter={(val) => {
-                      if (val === 0) return '0';
-                      const abs = Math.abs(val);
-
-                      // Whole integers for 1 to 1000
-                      if (abs >= 1 && abs <= 1000) {
-                        return Math.round(val).toString();
-                      }
-
-                      // Two sig figs for 0.01 to 1
-                      if (abs >= 0.01 && abs < 1) {
-                        return val.toPrecision(2);
-                      }
-
-                      // Scientific notation with two sig figs otherwise
-                      // toExponential(1) gives 1 decimal place, e.g. 1.2e+5 (2 significant figures)
-                      return val.toExponential(1);
-                    }}
+                    tickFormatter={formatAxisNumber}
                   />
                   <Tooltip />
                   <Legend verticalAlign="top" />
