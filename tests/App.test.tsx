@@ -61,8 +61,9 @@ describe('App Button Test', () => {
   test('clicking demo button switches view and runs simulation', async () => {
     render(<App />);
 
-    // 1. Find the button
-    const demoButton = await screen.findByRole('button', { name: /demo/i });
+    // 1. Find the button (returns array due to responsive duplicates)
+    const demoButtons = await screen.findAllByRole('button', { name: /demo/i });
+    const demoButton = demoButtons[0];
 
     // 2. Click the button
     fireEvent.click(demoButton);
