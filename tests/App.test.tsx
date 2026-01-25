@@ -1,35 +1,39 @@
 /// <reference types="@testing-library/jest-dom" />
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { vi } from 'vitest';
 import App from '../src/App';
-import { SimulationResult } from '../src/types';
+import { MemoryRouter, Routes, Route } from 'react-router-dom';
+import { OutputWrapper } from '../src/routes/Wrappers';
 
-// Use vi.hoisted to create a mock function that will be available before vi.mock is hoisted.
-const { mockRunSimulation } = vi.hoisted(() => {
+// Mock ResizeObserver
+global.ResizeObserver = class ResizeObserver {
+  observe() { }
+  unobserve() { }
+  disconnect() { }
+};
+
+// Mock Recharts to avoid rendering issues in JSDOM
+vi.mock('recharts', () => {
+  const OriginalModule = vi.importActual('recharts');
   return {
-    mockRunSimulation: vi.fn((): SimulationResult => ({
-      data: [8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8],
-      mean: 8,
-      stdDev: 1,
-      min: 5,
-      max: 11,
-      cp: 1.1,
-      cpk: 1.0,
-      cpu: 1.2,
-      cpl: 0.9,
-      sigmaLevel: 3,
-      dpmo: 66807,
-      defects: 33403,
-      timestamp: Date.now()
-    }))
+    ...OriginalModule,
+    ResponsiveContainer: ({ children }: any) => <div className="recharts-responsive-container">{children}</div>,
+    BarChart: () => <div data-testid="bar-chart">Bar Chart</div>,
+    Bar: () => null,
+    LineChart: () => <div data-testid="line-chart">Line Chart</div>,
+    Line: () => null,
+    XAxis: () => null,
+    YAxis: () => null,
+    Tooltip: () => null,
+    CartesianGrid: () => null,
+    Cell: () => null,
+    Legend: () => null,
+    ReferenceLine: () => null,
   };
 });
 
-
-
-
-// Mock the supabase service
+// Mock the supabase service (keep this mock as it is an external dependency)
 vi.mock('../src/services/supabase', () => ({
   supabase: {
     auth: {
@@ -47,43 +51,36 @@ vi.mock('../src/services/supabase', () => ({
   },
 }));
 
-// Mock the entire mathUtils module
-vi.mock('../src/services/mathUtils', () => ({
-  generateFullFactorialDesign: () => [{ id: 1, factors: {}, y: null }], // Return 1 dummy item
-  calculateEffects: () => [],
-  generateRegressionFormula: () => 'y = 1', // Return a dummy formula to trigger the optimizer
-  calculateInteractionEffects: () => [],
-  runSimulation: mockRunSimulation, // Use the hoisted mock function
-  createHistogramData: () => [],
-}));
-
-import { MemoryRouter, Routes, Route } from 'react-router-dom';
-
-describe('App Button Test', () => {
-  test('clicking demo button switches view and runs simulation', async () => {
+describe('App Integration Test', () => {
+  test('clicking demo button runs simulation and displays real output results', async () => {
     render(
       <MemoryRouter initialEntries={['/']}>
         <Routes>
           <Route path="/" element={<App />}>
-            <Route path="results" element={<div>AI Black Belt Insights Mock</div>} />
+            <Route path="results" element={<OutputWrapper />} />
           </Route>
         </Routes>
       </MemoryRouter>
     );
 
-    // 1. Find the button (returns array due to responsive duplicates)
+    // 1. Find and click the demo button
     const demoButtons = await screen.findAllByRole('button', { name: /demo/i });
     const demoButton = demoButtons[0];
-
-    // 2. Click the button
     fireEvent.click(demoButton);
 
-    // 3. Verify the "Output" view is now visible
-    // (This confirms the click handler fired and updated state)
-    // Use findByText which waits for the element to appear
-    expect(await screen.findByText(/AI Black Belt Insights Mock/i)).toBeInTheDocument();
+    // 2. Verify navigation to the results page by checking for the "Experimental Results" header
+    // This confirms OutputTab rendered
+    expect(await screen.findByText(/1. Experimental Results/i)).toBeInTheDocument();
 
-    // 4. Verify that the simulation was called
-    expect(mockRunSimulation).toHaveBeenCalled();
+    // 3. Verify that the pareto chart section is present
+    expect(screen.getByText(/2. Pareto of Effects/i)).toBeInTheDocument();
+
+    // 4. Verify that data was actually generated and calculated (integration test of mathUtils)
+    // The "Predictions & Optimization" section appears only when regression is possible (has data)
+    expect(await screen.findByText(/3. Prediction & Optimization/i)).toBeInTheDocument();
+
+    // Check for specific calculated values to ensure the math logic ran
+    // Since using random numbers in demo, exact values might vary, but we can check elements exist
+    expect(await screen.findByText(/Predicted Mean Y/i)).toBeInTheDocument();
   });
 });
