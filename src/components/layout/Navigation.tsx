@@ -17,7 +17,7 @@ const Navigation: React.FC = () => {
   const activeIndex = useMemo(() => {
     // Check key paths or exact match
     if (currentPath === '/' || currentPath === '/inputs') return 0;
-    if (currentPath.startsWith('/results')) return 1;
+    if (currentPath.startsWith('/ouput')) return 1;
     if (currentPath.startsWith('/history')) return 2;
     if (currentPath.startsWith('/blog')) return 3;
     if (currentPath.startsWith('/account')) return 4;

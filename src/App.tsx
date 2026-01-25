@@ -1,30 +1,110 @@
 
 import React, { useState } from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate, useSearchParams } from 'react-router-dom';
 import Header from './components/layout/Header';
 import { AuthProvider } from './components/auth/AuthContext';
 import { DoeFactor, DoeRun, YSpecs, OptimizationSpecs } from './types';
 import { generateFullFactorialDesign } from './services/mathUtils';
 import { AppContextType } from './context/OutletContext';
 
+// Serialization Helpers
+export const serializeState = (state: any) => {
+  try {
+    return btoa(JSON.stringify(state));
+  } catch (e) {
+    console.error("Failed to serialize state", e);
+    return "";
+  }
+};
+
+export const deserializeState = (str: string | null) => {
+  if (!str) return null;
+  try {
+    return JSON.parse(atob(str));
+  } catch (e) {
+    console.error("Failed to deserialize state", e);
+    return null;
+  }
+};
+
 const App: React.FC = () => {
   const navigate = useNavigate();
 
   // Shared DOE State
-  const [doeFactors, setDoeFactors] = useState<DoeFactor[]>([
-    { id: '1', name: 'Pressure', levels: [40, 60] },
-    { id: '2', name: 'Temp', levels: [200, 250] },
-    { id: '3', name: 'Volume', levels: [10, 20] },
-    { id: '4', name: 'Speed', levels: [1000, 1200] }
-  ]);
-  const [doeRuns, setDoeRuns] = useState<DoeRun[]>([]);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  // Initial State Loading
+  const loadInitialState = () => {
+    const stateStr = searchParams.get('state');
+    const savedState = deserializeState(stateStr);
+
+    // Default Factors
+    const defaultFactors = [
+      { id: '1', name: 'Pressure', levels: [40, 60] },
+      { id: '2', name: 'Temp', levels: [200, 250] },
+      { id: '3', name: 'Volume', levels: [10, 20] },
+      { id: '4', name: 'Speed', levels: [1000, 1200] }
+    ];
+
+    if (savedState) {
+      return {
+        factors: savedState.doeFactors || defaultFactors,
+        runs: savedState.doeRuns || [],
+        ySpecs: savedState.ySpecs || { target: '', lsl: '', usl: '' },
+        optimizerInputs: savedState.optimizerInputs || {}
+      };
+    }
+
+    return {
+      factors: defaultFactors,
+      runs: [],
+      ySpecs: { target: '', lsl: '', usl: '' },
+      optimizerInputs: {}
+    };
+  };
+
+  const initialState = loadInitialState();
+
+  const [doeFactors, setDoeFactors] = useState<DoeFactor[]>(initialState.factors);
+  const [doeRuns, setDoeRuns] = useState<DoeRun[]>(initialState.runs);
 
   // Shared Output State (Specs & Optimizer)
-  const [ySpecs, setYSpecs] = useState<YSpecs>({ target: '', lsl: '', usl: '' });
-  const [optimizerInputs, setOptimizerInputs] = useState<OptimizationSpecs>({});
+  const [ySpecs, setYSpecs] = useState<YSpecs>(initialState.ySpecs);
+  const [optimizerInputs, setOptimizerInputs] = useState<OptimizationSpecs>(initialState.optimizerInputs);
 
   // Demo State
   const [demoActive, setDemoActive] = useState(false);
+
+  // Sync State to URL
+  React.useEffect(() => {
+    // Debounce slightly or just update on every change? 
+    // Given the text fields, a small debounce used to be nice, but here local state drives inputs so it's fine.
+    // However, updating URL on every keystroke might be heavy if history stack gets huge.
+    // We will use replace: true to avoid breaking back button.
+
+    const currentState = {
+      doeFactors,
+      doeRuns,
+      ySpecs,
+      optimizerInputs
+    };
+
+    const serialized = serializeState(currentState);
+
+    setSearchParams(prev => {
+      // Only update if changed to avoid loops?
+      // useSearchParams should be stable.
+      // We preserve other params if any (React Router handles this via setSearchParams, but we need to pass new object)
+      const newParams = new URLSearchParams(prev);
+      if (serialized) {
+        newParams.set('state', serialized);
+      } else {
+        newParams.delete('state');
+      }
+      return newParams;
+    }, { replace: true });
+
+  }, [doeFactors, doeRuns, ySpecs, optimizerInputs, setSearchParams]);
 
   // Generator handler
   const handleGenerateDesign = (factors: DoeFactor[]) => {
