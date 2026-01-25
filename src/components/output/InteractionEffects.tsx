@@ -128,7 +128,7 @@ const InteractionEffects: React.FC<InteractionEffectsProps> = ({ runs, factors }
           <div className='h-[300px] bg-slate-50 rounded-lg border border-slate-200 flex items-center justify-center'>
             {selectedInteractionPlotData ? (
               <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={selectedInteractionPlotData.data} margin={{ top: 20, right: 30, left: 0, bottom: 20 }}>
+                <LineChart data={selectedInteractionPlotData.data} margin={{ top: 20, right: 30, left: 40, bottom: 20 }}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis
                     dataKey="x"
@@ -140,10 +140,10 @@ const InteractionEffects: React.FC<InteractionEffectsProps> = ({ runs, factors }
                   <YAxis
                     domain={['dataMin', 'dataMax']}
                     padding={{ top: 20, bottom: 20 }}
-                    label={{ value: 'Mean Response', angle: -90, position: 'insideLeft' }}
+                    label={{ value: 'Mean Response', angle: -90, position: 'insideLeft', style: { textAnchor: 'middle' }, dx: -10 }}
                     tickFormatter={formatAxisNumber}
                   />
-                  <Tooltip />
+                  <Tooltip formatter={(value: number) => [formatAxisNumber(value)]} />
                   <Legend verticalAlign="top" />
                   <Line type="monotone" dataKey={`${selectedInteractionPlotData.factor2Name}=${selectedInteractionPlotData.low2}`} stroke="#8884d8" strokeWidth={2} />
                   <Line type="monotone" dataKey={`${selectedInteractionPlotData.factor2Name}=${selectedInteractionPlotData.high2}`} stroke="#82ca9d" strokeWidth={2} />
