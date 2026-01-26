@@ -21,7 +21,8 @@ export const processArticles = (
 
     for (const path in componentModules) {
         // Extract slug from filename: ./posts/my-post.mdx -> my-post
-        const slug = path.split('/').pop()?.replace('.mdx', '') || '';
+        // Extract slug from filename: ./posts/my-post.mdx -> my-post or ./posts/my-post.md -> my-post
+        const slug = path.split('/').pop()?.replace(/\.(mdx?)$/, '') || '';
 
         // Get the component (the default export of the MDX module)
         // In Vite, eager glob imports return the module namespace.

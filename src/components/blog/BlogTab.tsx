@@ -30,10 +30,10 @@ class BlogErrorBoundary extends Component<{ children: ReactNode }, { hasError: b
 }
 
 // 1. Glob import all MDX files as React components
-const componentModules = import.meta.glob('./posts/*.mdx', { eager: true });
+const componentModules = import.meta.glob('./posts/*.{mdx,md}', { eager: true });
 
 // 2. Glob import raw content to parse titles
-const rawModules = import.meta.glob('./posts/*.mdx', { query: '?raw', eager: true });
+const rawModules = import.meta.glob('./posts/*.{mdx,md}', { query: '?raw', eager: true });
 
 const BlogTab: React.FC = () => {
     // memoize the articles list so we don't re-parse on every render
