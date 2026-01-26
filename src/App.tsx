@@ -113,7 +113,7 @@ const App: React.FC = () => {
   const handleGenerateDesign = (factors: DoeFactor[]) => {
     setDoeFactors(factors);
     setDoeRuns(generateFullFactorialDesign(factors));
-    navigate('/results');
+    navigate('/output');
   };
 
   // Demo Logic
@@ -144,7 +144,7 @@ const App: React.FC = () => {
     setYSpecs({ target: '8', lsl: '7', usl: '9' });
 
     // 4. Switch to Output tab
-    navigate('/results');
+    navigate('/output');
 
     // 5. Trigger Demo Sequence
     setDemoActive(true);

@@ -7,7 +7,7 @@ const Navigation: React.FC = () => {
 
   const tabs = [
     { id: 'inputs', label: 'Input', path: '/inputs' },
-    { id: 'results', label: 'Output', path: '/results' },
+    { id: 'results', label: 'Output', path: '/output' },
     { id: 'history', label: 'History', path: '/history' },
     { id: 'blog', label: 'Blog', path: '/blog' },
     { id: 'account', label: 'Account', path: '/account' },
@@ -17,7 +17,7 @@ const Navigation: React.FC = () => {
   const activeIndex = useMemo(() => {
     // Check key paths or exact match
     if (currentPath === '/' || currentPath === '/inputs') return 0;
-    if (currentPath.startsWith('/ouput')) return 1;
+    if (currentPath.startsWith('/output')) return 1;
     if (currentPath.startsWith('/history')) return 2;
     if (currentPath.startsWith('/blog')) return 3;
     if (currentPath.startsWith('/account')) return 4;
