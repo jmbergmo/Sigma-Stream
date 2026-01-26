@@ -169,16 +169,15 @@ const App: React.FC = () => {
     setOptimizerInputs,
     demoActive,
     setDemoActive,
-    handleGenerateDesign
+    handleGenerateDesign,
+    handleClear,
+    handleDemo
   };
 
   return (
     <AuthProvider>
       <div className="min-h-screen flex flex-col bg-slate-50/50 h-screen overflow-hidden">
-        <Header
-          onDemo={handleDemo}
-          onClear={handleClear}
-        />
+        <Header />
 
         <div className="flex flex-1 overflow-hidden relative">
           {/* Main Content Area - Scrollable */}

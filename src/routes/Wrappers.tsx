@@ -5,8 +5,8 @@ import OutputTab from '../components/output/OutputTab';
 import { AppContextType } from '../context/OutletContext';
 
 export const InputWrapper: React.FC = () => {
-    const { doeFactors, handleGenerateDesign } = useOutletContext<AppContextType>();
-    return <InputTab factors={doeFactors} onGenerate={handleGenerateDesign} />;
+    const { doeFactors, handleGenerateDesign, handleClear } = useOutletContext<AppContextType>();
+    return <InputTab factors={doeFactors} onGenerate={handleGenerateDesign} onClear={handleClear} />;
 };
 
 export const OutputWrapper: React.FC = () => {
@@ -19,7 +19,8 @@ export const OutputWrapper: React.FC = () => {
         optimizerInputs,
         setOptimizerInputs,
         demoActive,
-        setDemoActive
+        setDemoActive,
+        handleDemo
     } = useOutletContext<AppContextType>();
 
     return (
@@ -33,6 +34,7 @@ export const OutputWrapper: React.FC = () => {
             onOptimizerInputsChange={setOptimizerInputs}
             demoActive={demoActive}
             onDemoComplete={() => setDemoActive(false)}
+            onDemo={handleDemo}
         />
     );
 };

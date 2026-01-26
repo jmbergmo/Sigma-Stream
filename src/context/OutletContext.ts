@@ -11,4 +11,6 @@ export interface AppContextType {
     demoActive: boolean;
     setDemoActive: (active: boolean) => void;
     handleGenerateDesign: (factors: DoeFactor[]) => void;
+    handleClear: () => void;
+    handleDemo: () => void;
 }

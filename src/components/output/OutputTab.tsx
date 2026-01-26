@@ -18,10 +18,15 @@ interface OutputTabProps {
     onOptimizerInputsChange: (inputs: OptimizationSpecs) => void;
     demoActive: boolean;
     onDemoComplete: () => void;
+    onDemo: () => void;
 }
 
 const OutputTab: React.FC<OutputTabProps> = ({
-    runs, factors, onUpdateRuns, ySpecs, onYSpecsChange, optimizerInputs, onOptimizerInputsChange, demoActive, onDemoComplete
+    runs, factors, onUpdateRuns, ySpecs, onYSpecsChange, optimizerInputs,
+    onOptimizerInputsChange,
+    demoActive,
+    onDemoComplete,
+    onDemo
 }) => {
     const [activeCell, setActiveCell] = useState<{ rowId: number } | null>(null);
     const reportRef = useRef<HTMLDivElement>(null);
@@ -157,6 +162,25 @@ const OutputTab: React.FC<OutputTabProps> = ({
 
     return (
         <div className="animate-in fade-in slide-in-from-bottom-2 duration-500 pb-12">
+
+            {/* Toolbar */}
+            <div className="max-w-7xl mx-auto px-4 md:px-6 py-4 flex justify-end">
+                <div className="relative group">
+                    <button
+                        onClick={onDemo}
+                        className="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold py-1.5 px-3 rounded border border-emerald-500 shadow-sm transition-all active:scale-95 whitespace-nowrap flex items-center gap-2"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 3l14 9-14 9V3z"></path></svg>
+                        DEMO
+                    </button>
+                    {/* Tooltip */}
+                    <div className="absolute top-full mt-3 left-1/2 -translate-x-1/2 hidden group-hover:block w-48 p-2 bg-slate-800 text-white text-[10px] rounded shadow-xl text-center z-50 pointer-events-none ring-1 ring-white/10">
+                        Populate random data (Y=6-10), set specs, and download report.
+                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 border-4 border-transparent border-b-slate-800"></div>
+                    </div>
+                </div>
+            </div>
+
             <div ref={reportRef} className="space-y-8 p-4 bg-slate-50/50">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
                     {/* Data Table */}
