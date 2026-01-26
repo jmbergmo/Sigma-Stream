@@ -76,7 +76,7 @@ describe('App Integration Test', () => {
       <MemoryRouter initialEntries={['/']}>
         <Routes>
           <Route path="/" element={<App />}>
-            <Route path="results" element={<OutputWrapper />} />
+            <Route path="output" element={<OutputWrapper />} />
           </Route>
         </Routes>
       </MemoryRouter>
