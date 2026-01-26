@@ -60,4 +60,4 @@ We pulled the shot based on these calculated values. The result? **Notes of blac
 
 ## Conclusion
 
-Espresso isn't magic. It's a multivariable equation. With Sigma-Stream, you stop chasing the God Shot and start engineering it. Whether you're tuning a KTM 890R suspension or a La Marzocco Linea Mini, the principle remains: **measure, model, master.**
+Espresso isn't magic. It's a multivariable equation. With Sigma-Stream, you stop chasing the God Shot and start engineering it.

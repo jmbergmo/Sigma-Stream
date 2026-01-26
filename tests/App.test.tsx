@@ -5,7 +5,7 @@ import { vi } from 'vitest';
 import App from '../src/App';
 import * as ReactRouterDom from 'react-router-dom';
 const { MemoryRouter, Routes, Route } = ReactRouterDom;
-import { OutputWrapper } from '../src/routes/Wrappers';
+import { OutputWrapper, InputWrapper } from '../src/routes/Wrappers';
 
 // Mock useSearchParams to avoid invalidating MemoryRouter state during test
 vi.mock('react-router-dom', async () => {
@@ -73,7 +73,7 @@ vi.mock('../src/services/supabase', () => ({
 describe('App Integration Test', () => {
   test('clicking demo button runs simulation and displays real output results', async () => {
     render(
-      <MemoryRouter initialEntries={['/']}>
+      <MemoryRouter initialEntries={['/output']}>
         <Routes>
           <Route path="/" element={<App />}>
             <Route path="output" element={<OutputWrapper />} />
@@ -101,5 +101,36 @@ describe('App Integration Test', () => {
     // Check for specific calculated values to ensure the math logic ran
     // Since using random numbers in demo, exact values might vary, but we can check elements exist
     expect(await screen.findByText(/Predicted Mean Y/i)).toBeInTheDocument();
+  });
+
+  test('clicking clear button resets factors', async () => {
+    render(
+      <MemoryRouter initialEntries={['/inputs']}>
+        <Routes>
+          <Route path="/" element={<App />}>
+            <Route path="inputs" element={<InputWrapper />} />
+          </Route>
+        </Routes>
+      </MemoryRouter>
+    );
+
+    // 1. Verify we are on input page and have default factors (App initializes with defaults)
+    // The default factors are Pressure, Temp, Volume, Speed
+    expect(await screen.findByDisplayValue('Pressure')).toBeInTheDocument();
+
+    // 2. Find and click Clear button
+    // It is now named "Clear" (was capital CLEAR in header, but I changed it to "Clear" in InputTab)
+    const clearButton = await screen.findByRole('button', { name: /clear/i });
+    fireEvent.click(clearButton);
+
+    // 3. Verify factors are cleared
+    // The "Pressure" input should no longer be present
+    waitFor(() => {
+      expect(screen.queryByDisplayValue('Pressure')).not.toBeInTheDocument();
+    });
+
+    // Also verify we are still on inputs (or redirected to inputs, which we are)
+    // We can check if the "Add Factor Variable" button is still there
+    expect(screen.getByText(/Add Factor Variable/i)).toBeInTheDocument();
   });
 });
