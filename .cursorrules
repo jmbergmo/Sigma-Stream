@@ -1,0 +1,12 @@
+# Project Rules
+
+## Testing & Documentation
+
+### Testing Documentation Update
+- **Trigger**: Any changes (creation, modification, or deletion) to files in the `tests/` directory.
+- **Action**: You **MUST** update `TESTING.md` in the project root.
+- **Requirements**:
+  - Update the "Purpose" and "Key Coverage" sections for the modified test.
+  - Ensure the documentation accurately reflects the current state of the test.
+  - If a new test is added, create a new section for it.
+  - If a test is removed, delete its section.
