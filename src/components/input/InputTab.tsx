@@ -252,7 +252,7 @@ const InputTab: React.FC<InputTabProps> = ({ factors: initialFactors, onGenerate
 
             <button
               onClick={onClear}
-              className="px-4 py-2.5 rounded-xl font-semibold text-slate-500 hover:text-red-600 hover:bg-red-50 border border-transparent hover:border-red-100 transition-all flex items-center gap-2"
+              className="px-4 py-2.5 rounded-xl font-bold text-slate-600 hover:text-red-700 bg-slate-50 hover:bg-red-50/50 border border-slate-300 hover:border-red-200 shadow-sm transition-all flex items-center gap-2"
               title="Clear all data"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path></svg>
