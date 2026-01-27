@@ -178,20 +178,13 @@ const OutputTab: React.FC<OutputTabProps> = ({
                         <div className="px-6 py-4 border-b border-slate-200 bg-slate-50 flex justify-between items-start">
                             <h2 className="text-lg font-bold text-slate-800">1. Experimental Results</h2>
                             <div className="flex flex-col items-end gap-1">
-                                <div className="relative group">
-                                    <button
-                                        onClick={onDemo}
-                                        className="bg-emerald-600 hover:bg-emerald-500 text-white text-[10px] font-bold py-1 px-2.5 rounded border border-emerald-500 shadow-sm transition-all active:scale-95 whitespace-nowrap flex items-center gap-1.5"
-                                    >
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 3l14 9-14 9V3z"></path></svg>
-                                        DEMO
-                                    </button>
-                                    {/* Tooltip */}
-                                    <div className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 hidden group-hover:block w-48 p-2 bg-slate-800 text-white text-[10px] rounded shadow-xl text-center z-50 pointer-events-none ring-1 ring-white/10">
-                                        Populate random data (Y=6-10), set specs, and download report.
-                                        <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-slate-800"></div>
-                                    </div>
-                                </div>
+                                <button
+                                    onClick={onDemo}
+                                    className="bg-emerald-600 hover:bg-emerald-500 text-white text-[10px] font-bold py-1 px-2.5 rounded border border-emerald-500 shadow-sm transition-all active:scale-95 whitespace-nowrap flex items-center gap-1.5"
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 3l14 9-14 9V3z"></path></svg>
+                                    DEMO
+                                </button>
                                 <span className="text-[10px] text-slate-400 italic text-right">Recommended to note experimental results offline and paste here</span>
                             </div>
                         </div>
