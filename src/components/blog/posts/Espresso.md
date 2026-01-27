@@ -46,7 +46,7 @@ Here is where manual dialing fails. Most people assume hotter water always extra
 *   At **18g (Low Dose)**, increasing temperature to 96°C drastically *lowered* the taste score, introducing harsh astringency (channeling likely increased).
 *   At **20g (High Dose)**, the higher 96°C temperature was *necessary* to penetrate the thicker puck and fully develop the sweetness.
 
-![alt text](assets/espresso_interaction_effects.png)
+![alt text](/blog/assets/espresso_interaction_effects.png)
 
 If we had tuned these variables separately, we would have missed this relationship. We likely would have stuck with a lower temp and a high dose, resulting in a sour, under-extracted cup, or a high temp and low dose, resulting in bitterness.
 
