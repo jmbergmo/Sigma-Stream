@@ -31,7 +31,7 @@ The results were surprising. Sigma-Stream analyzed the data to determine which f
 
 The Pareto chart revealed the heavy hitters. We expected 'Cleanser Amount' to be key (more soap = cleaner, right?), but the data told a different story.
 
-![Pareto Chart of Skincare Factors](/blog/assets/skincare-pareto.png)
+![Pareto Chart of Skincare Factors](/assets/skincare-pareto.png)
 
 *   **Water Temperature (Factor A):** The single most critical factor. Warm water consistently led to better absorption and texture scores compared to cool water.
 *   **Scrub Duration (Factor C):** The second most important variable. 60 seconds proved significantly better than 15, confirming the "60-second rule" often cited by dermatologists.
@@ -41,7 +41,7 @@ The Pareto chart revealed the heavy hitters. We expected 'Cleanser Amount' to be
 
 Crucially, DOE uncovered a hidden interaction that simple trial-and-error would have missed.
 
-![Interaction Plot](/blog/assets/skincare-interaction.png)
+![Interaction Plot](/assets/skincare-interaction.png)
 
 There was a strong interaction between **Scrub Duration** and **Cleanser Amount**.
 *   When using a **Pea-sized** amount, the **60-second** scrub was essential effectively work the product in.

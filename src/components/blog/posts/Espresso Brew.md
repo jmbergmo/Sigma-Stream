@@ -34,7 +34,7 @@ A full factorial design ($2^3$) gave us 8 unique combinations (plus a few center
 
 The Response Variable (Y)? **Taste Score** (blind tasted, rated 1-10) and **Total Dissolved Solids (TDS)** via refractometer.
 
-![image1](/blog/assets/espresso1.png)
+![image1](/assets/espresso1.png)
 
 ## Step 3: Cracking the Code
 
@@ -50,7 +50,7 @@ Here is where manual dialing fails. Most people assume hotter water always extra
 *   At **18g (Low Dose)**, increasing temperature to 96°C drastically *lowered* the taste score, introducing harsh astringency (channeling likely increased).
 *   At **20g (High Dose)**, the higher 96°C temperature was *necessary* to penetrate the thicker puck and fully develop the sweetness.
 
-![image2](/blog/assets/espresso2.png)
+![image2](/assets/espresso2.png)
 
 If we had tuned these variables separately, we would have missed this relationship. We likely would have stuck with a lower temp and a high dose, resulting in a sour, under-extracted cup, or a high temp and low dose, resulting in bitterness.
 

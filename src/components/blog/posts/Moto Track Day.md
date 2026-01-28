@@ -18,7 +18,7 @@ We focused on the four suspension settings we believed held the key to rear-end 
 
 Four factors, two levels each—that's a potential 16 unique setups (a full factorial design). Using Sigma-Stream's DOE calculator, we generated a precisely randomized plan to ensure maximum insight from our 16 track runs. Each run consisted of a 3-lap warm-up, culminating in a single, recorded hot lap. The response variable (Y) was lap time, measured in seconds, the ultimate performance metric.
 
-![image1](/blog/assets/moto1.png)
+![image1](/assets/moto1.png)
 
 ## Step 3: Data Speaks. Guesswork Walks.
 
@@ -31,7 +31,7 @@ The Pareto chart was a mic drop moment, clearly isolating the major players:
 * **Tire Pressure:** The absolute heavyweight. Lower pressure provided a massive, non-linear advantage in grip.  
 * **Compression Damping:** The runner-up. A faster rebound setting proved crucial for keeping the tire planted and responsive under load.
 
-![image2](/blog/assets/moto-track-day-image2.png)
+![image2](/assets/moto2.png)
 
 ### The Unpredictable Synergy: Interaction Effects
 
@@ -39,7 +39,7 @@ The true power of the DOE approach, facilitated by Sigma-Stream, was in detectin
 
 * **Rebound and Preload:** This duo proved to be a performance paradox. Running low preload *and* high rebound added over two-thirds of a second to the lap time. The interaction plot made it clear: the optimal settings for these two factors were intricately linked, adjusting one demanded a specific corresponding adjustment in the other.
 
-![image4](/blog/assets/moto4.png)
+![image4](/assets/moto4.png)
 
 Every other factor and interaction was revealed to be comparatively negligible, affecting performance by less than a tenth of a second.
 
@@ -47,7 +47,7 @@ Every other factor and interaction was revealed to be comparatively negligible, 
 
 Sigma-Stream didn't just analyze the past; it gave us the ability to predict the future. The regression formula generated from the data provided a crystal-clear predictive model for performance:
 
-![image3](/blog/assets/moto-track-day-image3.png)
+![image3](/assets/moto3.png)
 
 This formula is the key to the kingdom, allowing for precise setup optimization before the bike even leaves the pit lane.
 
