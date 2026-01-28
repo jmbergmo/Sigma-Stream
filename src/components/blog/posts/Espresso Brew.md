@@ -6,6 +6,8 @@ We've all been there. You buy a fresh bag of single-origin beans, excited for th
 
 Why guess when you can measure? Why stumble when you can optimize?
 
+See the this analysis in [Sigma-Stream](https://sigma-stream.com/output?state=eyJkb2VGYWN0b3JzIjpbeyJpZCI6IjE3Njk1NzQwNzc1MTIiLCJuYW1lIjoiR3JpbmQgU2l6ZSIsImxldmVscyI6WzEyLDE2XX0seyJpZCI6IjE3Njk1NzQxMTU4NjEiLCJuYW1lIjoiRG9zZSIsImxldmVscyI6WzE4LDIwXX0seyJpZCI6IjE3Njk1NzQxMjI1OTQiLCJuYW1lIjoiVGVtcGVyYXR1cmUiLCJsZXZlbHMiOls5Miw5Nl19XSwiZG9lUnVucyI6W3siaWQiOjEsImZhY3RvcnMiOnsiR3JpbmQgU2l6ZSI6MTIsIkRvc2UiOjE4LCJUZW1wZXJhdHVyZSI6OTJ9LCJ5Ijo3fSx7ImlkIjoyLCJmYWN0b3JzIjp7IkdyaW5kIFNpemUiOjEyLCJEb3NlIjoxOCwiVGVtcGVyYXR1cmUiOjk2fSwieSI6M30seyJpZCI6MywiZmFjdG9ycyI6eyJHcmluZCBTaXplIjoxMiwiRG9zZSI6MjAsIlRlbXBlcmF0dXJlIjo5Mn0sInkiOjh9LHsiaWQiOjQsImZhY3RvcnMiOnsiR3JpbmQgU2l6ZSI6MTIsIkRvc2UiOjIwLCJUZW1wZXJhdHVyZSI6OTZ9LCJ5IjoxMH0seyJpZCI6NSwiZmFjdG9ycyI6eyJHcmluZCBTaXplIjoxNiwiRG9zZSI6MTgsIlRlbXBlcmF0dXJlIjo5Mn0sInkiOjZ9LHsiaWQiOjYsImZhY3RvcnMiOnsiR3JpbmQgU2l6ZSI6MTYsIkRvc2UiOjE4LCJUZW1wZXJhdHVyZSI6OTZ9LCJ5IjoyfSx7ImlkIjo3LCJmYWN0b3JzIjp7IkdyaW5kIFNpemUiOjE2LCJEb3NlIjoyMCwiVGVtcGVyYXR1cmUiOjkyfSwieSI6N30seyJpZCI6OCwiZmFjdG9ycyI6eyJHcmluZCBTaXplIjoxNiwiRG9zZSI6MjAsIlRlbXBlcmF0dXJlIjo5Nn0sInkiOjl9XSwieVNwZWNzIjp7InRhcmdldCI6IiIsImxzbCI6IiIsInVzbCI6IiJ9LCJvcHRpbWl6ZXJJbnB1dHMiOnsiR3JpbmQgU2l6ZSI6eyJsb3dlckxpbWl0IjoxMywidXBwZXJMaW1pdCI6MTUsInRhcmdldCI6MTR9LCJEb3NlIjp7Imxvd2VyTGltaXQiOjE3LCJ1cHBlckxpbWl0IjoyMSwidGFyZ2V0IjoxOX0sIlRlbXBlcmF0dXJlIjp7Imxvd2VyTGltaXQiOjg1LCJ1cHBlckxpbWl0IjoxMDMsInRhcmdldCI6OTR9fX0%3D)
+
 ## De-Mystifying the Puck
 
 Espresso extraction is physics and chemistry. It involves fluid dynamics, solubility, and pressure. Instead of the typical "dialing in" method (change one thing, taste, guess, change another, forget what you did), we applied **Sigma-Stream's Design of Experiments (DOE)** engine.
@@ -32,6 +34,8 @@ A full factorial design ($2^3$) gave us 8 unique combinations (plus a few center
 
 The Response Variable (Y)? **Taste Score** (blind tasted, rated 1-10) and **Total Dissolved Solids (TDS)** via refractometer.
 
+![image1](/blog/assets/espresso1.png)
+
 ## Step 3: Cracking the Code
 
 We ran the shots, entered the data into Sigma-Stream, and let the algorithms do the heavy lifting. The insights were counter-intuitive.
@@ -46,7 +50,7 @@ Here is where manual dialing fails. Most people assume hotter water always extra
 *   At **18g (Low Dose)**, increasing temperature to 96°C drastically *lowered* the taste score, introducing harsh astringency (channeling likely increased).
 *   At **20g (High Dose)**, the higher 96°C temperature was *necessary* to penetrate the thicker puck and fully develop the sweetness.
 
-![alt text](/blog/assets/espresso_interaction_effects.png)
+![image2](/blog/assets/espresso2.png)
 
 If we had tuned these variables separately, we would have missed this relationship. We likely would have stuck with a lower temp and a high dose, resulting in a sour, under-extracted cup, or a high temp and low dose, resulting in bitterness.
 

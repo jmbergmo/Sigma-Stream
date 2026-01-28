@@ -4,6 +4,8 @@
 
 The KTM Duke 890R is a surgical tool designed for track domination. Yet, even the sharpest instrument needs fine-tuning. Our challenge was familiar to every track enthusiast: inconsistent rear grip on corner exit. The bike was a frustrating enigma, sometimes hooking up perfectly, sometimes spinning the tire or running wide and sacrificing crucial straight-line drive. For too long, suspension adjustments felt like throwing darts in the dark; a click here, a turn there, hoping to stumble upon the magic setup. These factors, we quickly realized, were interacting in complex, unpredictable ways that manual tuning simply couldn't untangle.
 
+See this analysis in [Sigma-Stream](https://sigma-stream.com/output?state=eyJkb2VGYWN0b3JzIjpbeyJpZCI6IjEiLCJuYW1lIjoiUHJlc3N1cmUiLCJsZXZlbHMiOlszMCwzNF19LHsiaWQiOiIyIiwibmFtZSI6IkNvbXAiLCJsZXZlbHMiOls4LDEyXX0seyJpZCI6IjMiLCJuYW1lIjoiUmViIiwibGV2ZWxzIjpbNywxMV19LHsiaWQiOiI0IiwibmFtZSI6IlByZWxvYWQiLCJsZXZlbHMiOls0LDZdfV0sImRvZVJ1bnMiOlt7ImlkIjoxLCJmYWN0b3JzIjp7IlByZXNzdXJlIjozMCwiQ29tcCI6OCwiUmViIjo3LCJQcmVsb2FkIjo0fSwieSI6OTd9LHsiaWQiOjIsImZhY3RvcnMiOnsiUHJlc3N1cmUiOjMwLCJDb21wIjo4LCJSZWIiOjcsIlByZWxvYWQiOjZ9LCJ5Ijo5Ni44fSx7ImlkIjozLCJmYWN0b3JzIjp7IlByZXNzdXJlIjozMCwiQ29tcCI6OCwiUmViIjoxMSwiUHJlbG9hZCI6NH0sInkiOjk3LjZ9LHsiaWQiOjQsImZhY3RvcnMiOnsiUHJlc3N1cmUiOjMwLCJDb21wIjo4LCJSZWIiOjExLCJQcmVsb2FkIjo2fSwieSI6OTYuM30seyJpZCI6NSwiZmFjdG9ycyI6eyJQcmVzc3VyZSI6MzAsIkNvbXAiOjEyLCJSZWIiOjcsIlByZWxvYWQiOjR9LCJ5Ijo5NS43fSx7ImlkIjo2LCJmYWN0b3JzIjp7IlByZXNzdXJlIjozMCwiQ29tcCI6MTIsIlJlYiI6NywiUHJlbG9hZCI6Nn0sInkiOjk1LjV9LHsiaWQiOjcsImZhY3RvcnMiOnsiUHJlc3N1cmUiOjMwLCJDb21wIjoxMiwiUmViIjoxMSwiUHJlbG9hZCI6NH0sInkiOjk2LjR9LHsiaWQiOjgsImZhY3RvcnMiOnsiUHJlc3N1cmUiOjMwLCJDb21wIjoxMiwiUmViIjoxMSwiUHJlbG9hZCI6Nn0sInkiOjk0Ljd9LHsiaWQiOjksImZhY3RvcnMiOnsiUHJlc3N1cmUiOjM0LCJDb21wIjo4LCJSZWIiOjcsIlByZWxvYWQiOjR9LCJ5Ijo5M30seyJpZCI6MTAsImZhY3RvcnMiOnsiUHJlc3N1cmUiOjM0LCJDb21wIjo4LCJSZWIiOjcsIlByZWxvYWQiOjZ9LCJ5Ijo5Mi45fSx7ImlkIjoxMSwiZmFjdG9ycyI6eyJQcmVzc3VyZSI6MzQsIkNvbXAiOjgsIlJlYiI6MTEsIlByZWxvYWQiOjR9LCJ5Ijo5My43fSx7ImlkIjoxMiwiZmFjdG9ycyI6eyJQcmVzc3VyZSI6MzQsIkNvbXAiOjgsIlJlYiI6MTEsIlByZWxvYWQiOjZ9LCJ5Ijo5Mi4zfSx7ImlkIjoxMywiZmFjdG9ycyI6eyJQcmVzc3VyZSI6MzQsIkNvbXAiOjEyLCJSZWIiOjcsIlByZWxvYWQiOjR9LCJ5Ijo5MS44fSx7ImlkIjoxNCwiZmFjdG9ycyI6eyJQcmVzc3VyZSI6MzQsIkNvbXAiOjEyLCJSZWIiOjcsIlByZWxvYWQiOjZ9LCJ5Ijo5MS42fSx7ImlkIjoxNSwiZmFjdG9ycyI6eyJQcmVzc3VyZSI6MzQsIkNvbXAiOjEyLCJSZWIiOjExLCJQcmVsb2FkIjo0fSwieSI6OTIuM30seyJpZCI6MTYsImZhY3RvcnMiOnsiUHJlc3N1cmUiOjM0LCJDb21wIjoxMiwiUmViIjoxMSwiUHJlbG9hZCI6Nn0sInkiOjkwLjV9XSwieVNwZWNzIjp7InRhcmdldCI6IiIsImxzbCI6IiIsInVzbCI6IiJ9LCJvcHRpbWl6ZXJJbnB1dHMiOnsiUHJlc3N1cmUiOnsibG93ZXJMaW1pdCI6MjksInVwcGVyTGltaXQiOjM1LCJ0YXJnZXQiOjMyfSwiQ29tcCI6eyJsb3dlckxpbWl0Ijo5LCJ1cHBlckxpbWl0IjoxMSwidGFyZ2V0IjoxMH0sIlJlYiI6eyJsb3dlckxpbWl0Ijo4LCJ1cHBlckxpbWl0IjoxMCwidGFyZ2V0Ijo5fSwiUHJlbG9hZCI6eyJsb3dlckxpbWl0Ijo1LCJ1cHBlckxpbWl0Ijo2LCJ0YXJnZXQiOjV9fX0%3D)
+
 ## Designing the Ultimate Setup Sprint
 
 Enter **Sigma-Stream**, our secret weapon and the core of our structured approach. Forget trial-and-error; we leveraged the power of Design of Experiments (DOE) through this intuitive tool to systematically map the performance landscape of our suspension. Our goal was simple: replace gut feeling with irrefutable data to maximize rear grip and shave precious seconds off the clock.
@@ -12,13 +14,11 @@ Enter **Sigma-Stream**, our secret weapon and the core of our structured approac
 
 We focused on the four suspension settings we believed held the key to rear-end nirvana, defining a "high" and "low" boundary for each, guided by manufacturer specs and rider experience.
 
-### ![image1](/blog/assets/moto-track-day-image1.png)
-
 ## Step 2: The Sigma-Stream Strategy
 
 Four factors, two levels each—that's a potential 16 unique setups (a full factorial design). Using Sigma-Stream's DOE calculator, we generated a precisely randomized plan to ensure maximum insight from our 16 track runs. Each run consisted of a 3-lap warm-up, culminating in a single, recorded hot lap. The response variable (Y) was lap time, measured in seconds, the ultimate performance metric.
 
-![image2](/blog/assets/moto-track-day-image2.png)
+![image1](/blog/assets/moto1.png)
 
 ## Step 3: Data Speaks. Guesswork Walks.
 
@@ -31,7 +31,7 @@ The Pareto chart was a mic drop moment, clearly isolating the major players:
 * **Tire Pressure:** The absolute heavyweight. Lower pressure provided a massive, non-linear advantage in grip.  
 * **Compression Damping:** The runner-up. A faster rebound setting proved crucial for keeping the tire planted and responsive under load.
 
-![image3](/blog/assets/moto-track-day-image3.png)
+![image2](/blog/assets/moto-track-day-image2.png)
 
 ### The Unpredictable Synergy: Interaction Effects
 
@@ -39,7 +39,7 @@ The true power of the DOE approach, facilitated by Sigma-Stream, was in detectin
 
 * **Rebound and Preload:** This duo proved to be a performance paradox. Running low preload *and* high rebound added over two-thirds of a second to the lap time. The interaction plot made it clear: the optimal settings for these two factors were intricately linked, adjusting one demanded a specific corresponding adjustment in the other.
 
-![image4](/blog/assets/moto-track-day-image4.png)
+![image4](/blog/assets/moto4.png)
 
 Every other factor and interaction was revealed to be comparatively negligible, affecting performance by less than a tenth of a second.
 
@@ -47,7 +47,7 @@ Every other factor and interaction was revealed to be comparatively negligible, 
 
 Sigma-Stream didn't just analyze the past; it gave us the ability to predict the future. The regression formula generated from the data provided a crystal-clear predictive model for performance:
 
-Model: Y (Lap Time) \= 131.9219 \+ (-0.9969 \* Pressure) \+ (-0.3469 \* Comp) \+ (-0.0156 \* Reb) \+ (-0.4312 \* Preload)
+![image3](/blog/assets/moto-track-day-image3.png)
 
 This formula is the key to the kingdom, allowing for precise setup optimization before the bike even leaves the pit lane.
 
