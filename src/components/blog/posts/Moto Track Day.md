@@ -31,7 +31,7 @@ The Pareto chart was a mic drop moment, clearly isolating the major players:
 * **Tire Pressure:** The absolute heavyweight. Lower pressure provided a massive, non-linear advantage in grip.  
 * **Compression Damping:** The runner-up. A faster rebound setting proved crucial for keeping the tire planted and responsive under load.
 
-![image2](/assets/moto2.png)
+
 
 ### The Unpredictable Synergy: Interaction Effects
 
