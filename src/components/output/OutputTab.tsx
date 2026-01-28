@@ -3,8 +3,7 @@ import { BarChart, Bar, XAxis, Tooltip, ResponsiveContainer, CartesianGrid, YAxi
 import { DoeRun, DoeFactor, InputVariable, SimulationConfig, YSpecs, OptimizationSpecs } from '../../types';
 import { calculateEffects, generateRegressionFormula, runSimulation } from '../../services/mathUtils';
 import SimulationResults from './SimulationResults';
-import html2canvas from 'html2canvas';
-import jsPDF from 'jspdf';
+
 import { analyzeSimulationResults } from '../../services/geminiService';
 import InteractionEffects from './InteractionEffects';
 
@@ -29,7 +28,7 @@ const OutputTab: React.FC<OutputTabProps> = ({
     onDemo
 }) => {
     const [activeCell, setActiveCell] = useState<{ rowId: number } | null>(null);
-    const reportRef = useRef<HTMLDivElement>(null);
+
     const [simResult, setSimResult] = useState<any>(null);
     const [analysis, setAnalysis] = useState<string | null>(null);
     const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -140,19 +139,7 @@ const OutputTab: React.FC<OutputTabProps> = ({
         }
     };
 
-    const exportReport = async () => {
-        if (!reportRef.current) return;
-        const btn = document.getElementById('export-btn');
-        if (btn) btn.style.display = 'none';
-        try {
-            const canvas = await html2canvas(reportRef.current, { scale: 2 });
-            const pdf = new jsPDF('p', 'mm', 'a4');
-            pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, pdf.internal.pageSize.getWidth(), (canvas.height * pdf.internal.pageSize.getWidth()) / canvas.width);
-            pdf.save(`Sigma Stream Report.pdf`);
-        } finally {
-            if (btn) btn.style.display = 'flex';
-        }
-    };
+
 
     const renderContent = () => {
         if (runs.length === 0) return (
@@ -171,7 +158,7 @@ const OutputTab: React.FC<OutputTabProps> = ({
         );
 
         return (
-            <div ref={reportRef} className="space-y-8 p-4 bg-slate-50/50">
+            <div className="space-y-8 p-4 bg-slate-50/50">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
                     {/* Data Table */}
                     <div className="lg:col-span-7 bg-white rounded-xl shadow-sm border border-slate-200 flex flex-col h-[500px] overflow-hidden">
@@ -238,7 +225,6 @@ const OutputTab: React.FC<OutputTabProps> = ({
                     <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
                         <div className="px-6 py-4 border-b border-slate-200 bg-slate-50 flex justify-between items-center">
                             <div><h2 className="text-lg font-bold text-slate-800">3. Prediction & Optimization</h2><p className="text-xs text-indigo-600 font-mono mt-1">Model: Y = {regressionFormula}</p></div>
-                            <button id="export-btn" onClick={exportReport} className="bg-slate-800 hover:bg-slate-700 text-white px-4 py-2 rounded-lg text-sm font-medium shadow-sm">Export Report</button>
                         </div>
                         <div className="p-6 grid grid-cols-1 lg:grid-cols-12 gap-8">
                             <div className="lg:col-span-5 space-y-6">

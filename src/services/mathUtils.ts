@@ -11,19 +11,55 @@ export const generateNormalRandom = (mean: number, stdDev: number): number => {
 
 // Safe formula evaluator
 export const evaluateFormula = (formula: string, variables: Record<string, number>): number => {
-  // Normalize variable names to lowercase to ensure they match the lowercased formula
-  const keys = Object.keys(variables).map(k => k.toLowerCase());
+  const keys = Object.keys(variables);
   const values = Object.values(variables);
-  
+
+  // Map variable names to safe identifiers to handle spaces and special chars
+  // e.g. "Flow Rate" -> "_v0"
+  const safeMap: Record<string, string> = {};
+  keys.forEach((key, index) => {
+    safeMap[key.toLowerCase()] = `_v${index}`;
+  });
+
   // Replace standard math functions with Math.func
+  // We do this BEFORE variable replacement to avoid accidental replacement if a variable is named "sin" etc.
+  // actually, we should be careful. variable names might conflict with math functions.
+  // heuristic: replace variables first? No, if variable is "sin", and formula is "sin(x)", we have ambiguity.
+  // Assuming standard precedence: Math functions are reserved.
+
   let safeFormula = formula.toLowerCase();
+
+  // 1. Replace operators
   safeFormula = safeFormula.replace(/\^/g, '**');
+
+  // 2. Replace variables with safe identifiers
+  // Sort keys by length (descending) to avoid partial matches
+  // e.g. prevent replacing "rate" inside "flow rate" if "rate" is also a variable
+  const sortedKeys = [...keys].sort((a, b) => b.length - a.length);
+
+  sortedKeys.forEach(key => {
+    const lowerKey = key.toLowerCase();
+    const safeId = safeMap[lowerKey];
+    // Escape regex special chars in the key
+    const escapedKey = lowerKey.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    // Use word boundary if possible, but spaces break \b logic for multi-word vars.
+    // Since we map "flow rate" -> "_v0", we need to replace the exact string.
+    // Simple string replaceAll might be safer if we are sure about the structure, 
+    // but "2 * flow rate" needs to match "flow rate".
+    // Let's use a global replace.
+    safeFormula = safeFormula.split(lowerKey).join(safeId);
+  });
+
+  // 3. Replace math functions
   ['sin', 'cos', 'tan', 'sqrt', 'log', 'exp', 'pow', 'abs'].forEach(func => {
-     safeFormula = safeFormula.replace(new RegExp(`\\b${func}\\b`, 'g'), `Math.${func}`);
+    // We look for word boundaries to avoid replacing parts of safe identifiers if they happened to contain these strings
+    // But safe identifiers are _v0, _v1, so they are safe from this.
+    safeFormula = safeFormula.replace(new RegExp(`\\b${func}\\b`, 'g'), `Math.${func}`);
   });
 
   try {
-    const f = new Function(...keys, `return ${safeFormula};`);
+    const safeKeys = keys.map(k => safeMap[k.toLowerCase()]);
+    const f = new Function(...safeKeys, `return ${safeFormula};`);
     return f(...values);
   } catch (e) {
     throw new Error(`Invalid Transfer Function: ${(e as Error).message}`);
@@ -39,7 +75,7 @@ export const runSimulation = (
 
   for (let i = 0; i < config.iterations; i++) {
     const iterationInputs: Record<string, number> = {};
-    
+
     variables.forEach(v => {
       iterationInputs[v.name] = generateNormalRandom(v.mean, v.stdDev);
     });
@@ -64,8 +100,8 @@ export const runSimulation = (
   const cpl = (mean - config.lsl) / (3 * stdDev);
   const cpkValue = Math.min(cpu, cpl);
   const cpk = cpkValue < 0 ? 0 : cpkValue;
-  
-  const sigmaLevel = 3 * cpk; 
+
+  const sigmaLevel = 3 * cpk;
   const dpmo = (defects / config.iterations) * 1_000_000;
 
   return {
@@ -86,49 +122,49 @@ export const runSimulation = (
 };
 
 export const createHistogramData = (data: number[], bins: number = 20): HistogramBin[] => {
-    if (data.length === 0) return [];
-    
-    const min = Math.min(...data);
-    const max = Math.max(...data);
-    const range = max - min;
-    const binSize = range / bins || 1; // Prevent divide by zero
-    
-    const histogram: HistogramBin[] = [];
-    
-    for (let i = 0; i < bins; i++) {
-        histogram.push({
-            binStart: min + (i * binSize),
-            binEnd: min + ((i + 1) * binSize),
-            count: 0
-        });
-    }
-    
-    data.forEach(val => {
-        let binIndex = Math.floor((val - min) / binSize);
-        if (binIndex >= bins) binIndex = bins - 1; 
-        if (binIndex < 0) binIndex = 0;
-        histogram[binIndex].count++;
+  if (data.length === 0) return [];
+
+  const min = Math.min(...data);
+  const max = Math.max(...data);
+  const range = max - min;
+  const binSize = range / bins || 1; // Prevent divide by zero
+
+  const histogram: HistogramBin[] = [];
+
+  for (let i = 0; i < bins; i++) {
+    histogram.push({
+      binStart: min + (i * binSize),
+      binEnd: min + ((i + 1) * binSize),
+      count: 0
     });
-    
-    return histogram;
+  }
+
+  data.forEach(val => {
+    let binIndex = Math.floor((val - min) / binSize);
+    if (binIndex >= bins) binIndex = bins - 1;
+    if (binIndex < 0) binIndex = 0;
+    histogram[binIndex].count++;
+  });
+
+  return histogram;
 };
 
 // Helper to generate Cartesian product of arrays
 const cartesian = (args: number[][]): number[][] => {
-    const r: number[][] = [];
-    const max = args.length - 1;
-    function helper(arr: number[], i: number) {
-        for (let j = 0, l = args[i].length; j < l; j++) {
-            const a = arr.slice(0); // clone arr
-            a.push(args[i][j]);
-            if (i === max)
-                r.push(a);
-            else
-                helper(a, i + 1);
-        }
+  const r: number[][] = [];
+  const max = args.length - 1;
+  function helper(arr: number[], i: number) {
+    for (let j = 0, l = args[i].length; j < l; j++) {
+      const a = arr.slice(0); // clone arr
+      a.push(args[i][j]);
+      if (i === max)
+        r.push(a);
+      else
+        helper(a, i + 1);
     }
-    helper([], 0);
-    return r;
+  }
+  helper([], 0);
+  return r;
 };
 
 // Generates a Full Factorial Design for mixed levels
@@ -137,7 +173,7 @@ export const generateFullFactorialDesign = (factors: DoeFactor[]): DoeRun[] => {
 
   // Extract levels for each factor
   const allLevels = factors.map(f => f.levels);
-  
+
   // Generate all combinations
   const combinations = cartesian(allLevels);
 
@@ -165,69 +201,69 @@ export interface MainEffect {
 }
 
 export const calculateEffects = (runs: DoeRun[], factors: DoeFactor[]): MainEffect[] => {
-    const validRuns = runs.filter(r => r.y !== null);
-    if (validRuns.length === 0) return [];
+  const validRuns = runs.filter(r => r.y !== null);
+  if (validRuns.length === 0) return [];
 
-    const effects: MainEffect[] = [];
+  const effects: MainEffect[] = [];
 
-    factors.forEach(factor => {
-        // Simple Main Effect: Avg(High) - Avg(Low)
-        // Note: This logic assumes 2 levels mostly. For >2 levels, we take Max - Min averages or linear slope.
-        // We will calculate slope based on (Avg_Max - Avg_Min) / (Max_Level - Min_Level)
-        
-        const levels = factor.levels.sort((a,b) => a - b);
-        const minLvl = levels[0];
-        const maxLvl = levels[levels.length - 1];
+  factors.forEach(factor => {
+    // Simple Main Effect: Avg(High) - Avg(Low)
+    // Note: This logic assumes 2 levels mostly. For >2 levels, we take Max - Min averages or linear slope.
+    // We will calculate slope based on (Avg_Max - Avg_Min) / (Max_Level - Min_Level)
 
-        const minRuns = validRuns.filter(r => r.factors[factor.name] === minLvl);
-        const maxRuns = validRuns.filter(r => r.factors[factor.name] === maxLvl);
+    const levels = factor.levels.sort((a, b) => a - b);
+    const minLvl = levels[0];
+    const maxLvl = levels[levels.length - 1];
 
-        if (minRuns.length > 0 && maxRuns.length > 0) {
-            const avgMin = minRuns.reduce((sum, r) => sum + (r.y || 0), 0) / minRuns.length;
-            const avgMax = maxRuns.reduce((sum, r) => sum + (r.y || 0), 0) / maxRuns.length;
-            
-            const diff = avgMax - avgMin;
-            const slope = diff / (maxLvl - minLvl || 1);
+    const minRuns = validRuns.filter(r => r.factors[factor.name] === minLvl);
+    const maxRuns = validRuns.filter(r => r.factors[factor.name] === maxLvl);
 
-            effects.push({
-                name: factor.name,
-                effect: Math.abs(diff),
-                slope: slope
-            });
-        }
-    });
+    if (minRuns.length > 0 && maxRuns.length > 0) {
+      const avgMin = minRuns.reduce((sum, r) => sum + (r.y || 0), 0) / minRuns.length;
+      const avgMax = maxRuns.reduce((sum, r) => sum + (r.y || 0), 0) / maxRuns.length;
 
-    return effects.sort((a, b) => b.effect - a.effect);
+      const diff = avgMax - avgMin;
+      const slope = diff / (maxLvl - minLvl || 1);
+
+      effects.push({
+        name: factor.name,
+        effect: Math.abs(diff),
+        slope: slope
+      });
+    }
+  });
+
+  return effects.sort((a, b) => b.effect - a.effect);
 };
 
 export const generateRegressionFormula = (runs: DoeRun[], factors: DoeFactor[]): string => {
-    const validRuns = runs.filter(r => r.y !== null);
-    if (validRuns.length === 0) return '';
-    
-    // 1. Calculate Slopes (Coefficients)
-    const effects = calculateEffects(validRuns, factors);
-    
-    // 2. Calculate Intercept
-    // Y = b0 + b1*x1 + b2*x2 ...
-    // b0 = Mean(Y) - (b1*Mean(x1) + b2*Mean(x2)...)
-    
-    const meanY = validRuns.reduce((s, r) => s + (r.y || 0), 0) / validRuns.length;
-    
-    let sumSlopeTimesMeanX = 0;
-    const parts: string[] = [];
+  const validRuns = runs.filter(r => r.y !== null);
+  if (validRuns.length === 0) return '';
 
-    factors.forEach(f => {
-        const effect = effects.find(e => e.name === f.name);
-        if (effect) {
-             const meanX = validRuns.reduce((s, r) => s + r.factors[f.name], 0) / validRuns.length;
-             sumSlopeTimesMeanX += effect.slope * meanX;
-             parts.push(`(${effect.slope.toFixed(4)} * ${f.name})`);
-        }
-    });
+  // 1. Calculate Slopes (Coefficients)
+  const effects = calculateEffects(validRuns, factors);
 
-    const intercept = meanY - sumSlopeTimesMeanX;
-    
-    return `${intercept.toFixed(4)} + ${parts.join(' + ')}`;
+  // 2. Calculate Intercept
+  // Y = b0 + b1*x1 + b2*x2 ...
+  // b0 = Mean(Y) - (b1*Mean(x1) + b2*Mean(x2)...)
+
+  const meanY = validRuns.reduce((s, r) => s + (r.y || 0), 0) / validRuns.length;
+
+  let sumSlopeTimesMeanX = 0;
+  const parts: string[] = [];
+
+  factors.forEach(f => {
+    const effect = effects.find(e => e.name === f.name);
+    if (effect) {
+      const meanX = validRuns.reduce((s, r) => s + r.factors[f.name], 0) / validRuns.length;
+      sumSlopeTimesMeanX += effect.slope * meanX;
+      parts.push(`(${effect.slope.toFixed(4)} * ${f.name})`);
+    }
+  });
+
+  const intercept = meanY - sumSlopeTimesMeanX;
+
+  return `${intercept.toFixed(4)} + ${parts.join(' + ')}`;
 };
 
 export interface InteractionEffect {
@@ -237,48 +273,48 @@ export interface InteractionEffect {
 }
 
 export const calculateInteractionEffects = (runs: DoeRun[], factors: DoeFactor[]): InteractionEffect[] => {
-    const validRuns = runs.filter(r => r.y !== null);
-    if (validRuns.length < 4 || factors.length < 2) return [];
+  const validRuns = runs.filter(r => r.y !== null);
+  if (validRuns.length < 4 || factors.length < 2) return [];
 
-    const interactions: InteractionEffect[] = [];
+  const interactions: InteractionEffect[] = [];
 
-    for (let i = 0; i < factors.length; i++) {
-        for (let j = i + 1; j < factors.length; j++) {
-            const factorA = factors[i];
-            const factorB = factors[j];
+  for (let i = 0; i < factors.length; i++) {
+    for (let j = i + 1; j < factors.length; j++) {
+      const factorA = factors[i];
+      const factorB = factors[j];
 
-            const levelsA = factorA.levels.sort((a, b) => a - b);
-            const lowA = levelsA[0];
-            const highA = levelsA[levelsA.length - 1];
+      const levelsA = factorA.levels.sort((a, b) => a - b);
+      const lowA = levelsA[0];
+      const highA = levelsA[levelsA.length - 1];
 
-            const levelsB = factorB.levels.sort((a, b) => a - b);
-            const lowB = levelsB[0];
-            const highB = levelsB[levelsB.length - 1];
+      const levelsB = factorB.levels.sort((a, b) => a - b);
+      const lowB = levelsB[0];
+      const highB = levelsB[levelsB.length - 1];
 
-            const runsLowA_LowB = validRuns.filter(r => r.factors[factorA.name] === lowA && r.factors[factorB.name] === lowB);
-            const runsHighA_LowB = validRuns.filter(r => r.factors[factorA.name] === highA && r.factors[factorB.name] === lowB);
-            const runsLowA_HighB = validRuns.filter(r => r.factors[factorA.name] === lowA && r.factors[factorB.name] === highB);
-            const runsHighA_HighB = validRuns.filter(r => r.factors[factorA.name] === highA && r.factors[factorB.name] === highB);
+      const runsLowA_LowB = validRuns.filter(r => r.factors[factorA.name] === lowA && r.factors[factorB.name] === lowB);
+      const runsHighA_LowB = validRuns.filter(r => r.factors[factorA.name] === highA && r.factors[factorB.name] === lowB);
+      const runsLowA_HighB = validRuns.filter(r => r.factors[factorA.name] === lowA && r.factors[factorB.name] === highB);
+      const runsHighA_HighB = validRuns.filter(r => r.factors[factorA.name] === highA && r.factors[factorB.name] === highB);
 
-            if (runsLowA_LowB.length > 0 && runsHighA_LowB.length > 0 && runsLowA_HighB.length > 0 && runsHighA_HighB.length > 0) {
-                const avgLowA_LowB = runsLowA_LowB.reduce((s, r) => s + (r.y || 0), 0) / runsLowA_LowB.length;
-                const avgHighA_LowB = runsHighA_LowB.reduce((s, r) => s + (r.y || 0), 0) / runsHighA_LowB.length;
-                const avgLowA_HighB = runsLowA_HighB.reduce((s, r) => s + (r.y || 0), 0) / runsLowA_HighB.length;
-                const avgHighA_HighB = runsHighA_HighB.reduce((s, r) => s + (r.y || 0), 0) / runsHighA_HighB.length;
+      if (runsLowA_LowB.length > 0 && runsHighA_LowB.length > 0 && runsLowA_HighB.length > 0 && runsHighA_HighB.length > 0) {
+        const avgLowA_LowB = runsLowA_LowB.reduce((s, r) => s + (r.y || 0), 0) / runsLowA_LowB.length;
+        const avgHighA_LowB = runsHighA_LowB.reduce((s, r) => s + (r.y || 0), 0) / runsHighA_LowB.length;
+        const avgLowA_HighB = runsLowA_HighB.reduce((s, r) => s + (r.y || 0), 0) / runsLowA_HighB.length;
+        const avgHighA_HighB = runsHighA_HighB.reduce((s, r) => s + (r.y || 0), 0) / runsHighA_HighB.length;
 
-                const effectA_at_lowB = avgHighA_LowB - avgLowA_LowB;
-                const effectA_at_highB = avgHighA_HighB - avgLowA_HighB;
+        const effectA_at_lowB = avgHighA_LowB - avgLowA_LowB;
+        const effectA_at_highB = avgHighA_HighB - avgLowA_HighB;
 
-                const interaction = (effectA_at_highB - effectA_at_lowB) / 2;
+        const interaction = (effectA_at_highB - effectA_at_lowB) / 2;
 
-                interactions.push({
-                    factor1: factorA.name,
-                    factor2: factorB.name,
-                    interaction: Math.abs(interaction),
-                });
-            }
-        }
+        interactions.push({
+          factor1: factorA.name,
+          factor2: factorB.name,
+          interaction: Math.abs(interaction),
+        });
+      }
     }
+  }
 
-    return interactions.sort((a, b) => b.interaction - a.interaction);
+  return interactions.sort((a, b) => b.interaction - a.interaction);
 };
