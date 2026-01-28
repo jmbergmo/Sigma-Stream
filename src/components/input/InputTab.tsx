@@ -129,6 +129,9 @@ const InputTab: React.FC<InputTabProps> = ({ factors: initialFactors, onGenerate
           </ol>
           <div className="border-t border-slate-100 pt-6">
             <h3 className="text-sm font-bold text-slate-800 mb-2 uppercase tracking-wide">About DFSS & DOE Optimization</h3>
+            <div className="mb-4 rounded-lg overflow-hidden border border-slate-200 shadow-sm">
+              <img src="/blog/assets/sigma-stream-demo.webp" alt="Sigma Stream Demo" className="w-full h-auto" />
+            </div>
             <p className="text-sm text-slate-600 leading-relaxed mb-4">
               Unlock the power of data-driven design with Design for Six Sigma (DFSS), a premier methodology for designing and optimizing products and processes to achieve outstanding quality and meet customer expectations. This powerful approach is fundamental to quality engineering and robust design. Our tool simplifies the core of DFSS by providing an intuitive platform for Design of Experiments (DOE).
             </p>
