@@ -176,50 +176,51 @@ const App: React.FC = () => {
 
   return (
     <AuthProvider>
-      <div className="min-h-screen flex flex-col bg-slate-50/50 h-screen overflow-hidden">
-        <Header />
+    <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-slate-950 h-screen overflow-hidden text-slate-900 dark:text-slate-100 transition-colors duration-300">
+      <Header />
 
         <div className="flex flex-1 overflow-hidden relative">
           {/* Main Content Area - Scrollable */}
-          <main className="flex-1 w-full overflow-y-auto px-4 md:px-6 py-8">
+          <main className="flex-1 w-full overflow-y-auto px-4 md:px-6 py-8 bg-white dark:bg-slate-900/50">
             <div className="max-w-7xl mx-auto">
               <Outlet context={contextValue} />
             </div>
           </main>
 
           {/* Right Sidebar (Ads) - Fixed/Sticky */}
-          <aside className="w-64 bg-slate-100 border-l border-slate-200 hidden lg:flex flex-col overflow-y-auto shrink-0 relative z-10">
+          <aside className="w-64 bg-slate-100 dark:bg-slate-900 border-l border-slate-200 dark:border-slate-800 hidden lg:flex flex-col overflow-y-auto shrink-0 relative z-10">
             <div className="p-4 space-y-6 sticky top-0">
-              <div className="text-[10px] font-bold text-slate-400 uppercase text-center tracking-widest">Sponsored</div>
+              <div className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase text-center tracking-widest">Sponsored</div>
 
-              <div className="bg-white p-4 rounded-xl shadow-sm border border-slate-200 group hover:shadow-md transition-all cursor-pointer">
+              <div className="bg-white dark:bg-slate-800 p-4 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 group hover:shadow-md dark:hover:shadow-indigo-500/10 transition-all cursor-pointer">
                 <div className="w-10 h-10 bg-blue-600 rounded-lg mb-3 flex items-center justify-center text-white font-bold text-xl">M</div>
-                <h4 className="font-bold text-slate-800">Minitabz Pro Ultra</h4>
-                <p className="text-xs text-slate-500 mt-1 mb-3">Why use free online tools when you can pay us $5,000/year?</p>
-                <button className="w-full bg-blue-50 text-blue-600 text-xs font-bold py-2 rounded group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                <h4 className="font-bold text-slate-800 dark:text-slate-100">Minitabz Pro Ultra</h4>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 mb-3">Why use free online tools when you can pay us $5,000/year?</p>
+                <button className="w-full bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-xs font-bold py-2 rounded group-hover:bg-blue-600 group-hover:text-white transition-colors">
                   Buy License
                 </button>
               </div>
 
-              <div className="bg-white p-4 rounded-xl shadow-sm border border-slate-200 group hover:shadow-md transition-all cursor-pointer">
+              <div className="bg-white dark:bg-slate-800 p-4 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 group hover:shadow-md dark:hover:shadow-indigo-500/10 transition-all cursor-pointer">
                 <div className="w-10 h-10 bg-emerald-600 rounded-lg mb-3 flex items-center justify-center text-white font-bold text-xl">J</div>
-                <h4 className="font-bold text-slate-800">JMP-Start Plus</h4>
-                <p className="text-xs text-slate-500 mt-1 mb-3">Statistical discovery for those who love excessive menus.</p>
-                <button className="w-full bg-emerald-50 text-emerald-600 text-xs font-bold py-2 rounded group-hover:bg-emerald-600 group-hover:text-white transition-colors">
+                <h4 className="font-bold text-slate-800 dark:text-slate-100">JMP-Start Plus</h4>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 mb-3">Statistical discovery for those who love excessive menus.</p>
+                <button className="w-full bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 text-xs font-bold py-2 rounded group-hover:bg-emerald-600 group-hover:text-white transition-colors">
                   Free Trial ($4500)
                 </button>
               </div>
 
-              <div className="bg-white p-4 rounded-xl shadow-sm border border-slate-200 group hover:shadow-md transition-all cursor-pointer">
+              <div className="bg-white dark:bg-slate-800 p-4 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 group hover:shadow-md dark:hover:shadow-indigo-500/10 transition-all cursor-pointer">
                 <div className="w-10 h-10 bg-purple-600 rounded-lg mb-3 flex items-center justify-center text-white font-bold text-xl">S</div>
-                <h4 className="font-bold text-slate-800">SigmaXL Lite</h4>
-                <p className="text-xs text-slate-500 mt-1 mb-3">It's mostly just Excel macros but we charge for it.</p>                      <button className="w-full bg-purple-50 text-purple-600 text-xs font-bold py-2 rounded group-hover:bg-purple-600 group-hover:text-white transition-colors">
+                <h4 className="font-bold text-slate-800 dark:text-slate-100">SigmaXL Lite</h4>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 mb-3">It's mostly just Excel macros but we charge for it.</p>
+                <button className="w-full bg-purple-50 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 text-xs font-bold py-2 rounded group-hover:bg-purple-600 group-hover:text-white transition-colors">
                   Get It Now
                 </button>
               </div>
 
               <div className="pt-8 space-y-3">
-                <button className="w-full border-2 border-slate-300 text-slate-500 hover:border-slate-400 hover:text-slate-600 font-bold py-2 px-4 rounded-lg text-xs transition-colors">
+                <button className="w-full border-2 border-slate-300 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:border-slate-400 dark:hover:border-slate-600 hover:text-slate-600 dark:hover:text-slate-300 font-bold py-2 px-4 rounded-lg text-xs transition-colors">
                   Upgrade to Remove Ads
                 </button>
               </div>

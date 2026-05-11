@@ -14,6 +14,38 @@
     content="DFSS, DOE, Design for Six Sigma, Design of Experiment, Six Sigma Tool, AI Optimization, DFSS DOE" />
 
   <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            dark: {
+              50: '#f8fafc',
+              100: '#f1f5f9',
+              200: '#e2e8f0',
+              300: '#cbd5e1',
+              400: '#94a3b8',
+              500: '#64748b',
+              600: '#475569',
+              700: '#334155',
+              800: '#1e293b',
+              900: '#0f172a',
+              950: '#020617',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <script>
+    // On page load or when changing themes, best to add inline in `head` to avoid FOUC
+    if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+    } else {
+        document.documentElement.classList.remove('dark')
+    }
+  </script>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
   <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png" />
@@ -27,6 +59,11 @@
   <style>
     body {
       font-family: 'Inter', sans-serif;
+    }
+    .dark body {
+      background-color: #020617;
+    }
+    body:not(.dark body) {
       background-color: #f8fafc;
     }
   </style>
@@ -45,7 +82,7 @@
     </script>
 </head>
 
-<body>
+<body class="bg-slate-50 dark:bg-slate-950 transition-colors duration-300">
   <div id="root"></div>
   <script type="module" src="/src/index.tsx"></script>
 </body>
