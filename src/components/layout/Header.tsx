@@ -31,7 +31,7 @@ const Header: React.FC = () => {
                   <h1 className="text-2xl font-bold tracking-tight text-white">
                     Sigma Stream
                   </h1>
-                  <p className="text-[10px] text-slate-400 font-mono tracking-wider uppercase">Beta v0.3</p>
+                  <p className="text-[10px] text-slate-400 font-mono tracking-wider uppercase">Beta v0.4</p>
                 </div>
               </a>
             </div>
